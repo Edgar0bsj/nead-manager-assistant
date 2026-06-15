@@ -1,0 +1,107 @@
+<div class="modal fade" id="formulario_edicao" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form action="{{ url_for('update_acexterno') }}" method="post" class="needs-validation" novalidate>
+                <input type="hidden" name="id" id="id_input">
+                <div class="modal-header">
+                    <h2 class="modal-title h5" id="formModalLabel">Edição</h2><button type="button" class="btn-close"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- BODY -->
+                    <div class="row g-3">
+                        <div class="col-md-6"><label class="form-label">Sistema</label><select name="sistema"
+                                id="sistema_input" class="form-select" required>
+                                <option value="">...</option>
+                                <option value="sophia">sophia</option>
+                                <option value="outros">outros</option>
+                            </select>
+                            <div class="invalid-feedback">faz favor</div>
+                        </div>
+
+                        <div class="col-md-6"><label class="form-label">Unidade</label><select name="unidade"
+                                id="unidade_input" class="form-select" required>
+                                <option value="">...</option>
+                                <option value="nova iguacu">nova iguacu</option>
+                                <option value="itaperuna">itaperuna</option>
+                                <option value="cidade nova">cidade nova</option>
+                            </select>
+                            <div class="invalid-feedback">faz favor</div>
+                        </div>
+                    </div>
+
+                    <div class="col-md"><label class="form-label">Nome</label><select name="name" id="name_input"
+                            class="form-select" required>
+                            <option value="">...</option>
+                            <option value="accessibility">accessibility</option>
+                            <option value="campus">campus</option>
+                            <option value="class">class</option>
+                            <option value="course">course</option>
+                            <option value="curriculum">curriculum</option>
+                            <option value="educational-hub">educational-hub</option>
+                            <option value="education-level">education-level</option>
+                            <option value="enrollment">enrollment</option>
+                            <option value="enrollment-class-subject-status">enrollment-class-subject-status</option>
+                            <option value="enrollment-group">enrollment-group</option>
+                            <option value="enrollment-period">enrollment-period</option>
+                            <option value="enrollment-status">enrollment-status</option>
+                            <option value="enrollment-type">enrollment-type</option>
+                            <option value="intake">intake</option>
+                            <option value="period">period</option>
+                            <option value="person">person</option>
+                            <option value="shift">shift</option>
+                            <option value="subject">subject</option>
+                            <option value="subject-category">subject-category</option>
+                            <option value="teaching-modality">teaching-modality</option>
+                            <option value="class-subject">class-subject</option>
+                            <option value="class-subject-role">class-subject-role</option>
+                        </select>
+                        <div class="invalid-feedback">faz favor</div>
+                    </div>
+
+                    <div class="col-md"><label class="form-label">oldExternalId</label><input name="oldExternalId"
+                            id="oldExternalId_input" class="form-control" required>
+                        <div class="invalid-feedback">faz favor</div>
+                    </div>
+
+                    <div class="col-md"><label class="form-label">newExternalId</label><input name="newExternalId"
+                            id="newExternalId_input" class="form-control" required>
+                        <div class="invalid-feedback">faz favor</div>
+                    </div>
+                    <!-- //BODY -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Salvar Edição</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+
+    const formModal = document.getElementById('formulario_edicao');
+
+    formModal.addEventListener('show.bs.modal', function (event) {
+
+        // Botão que abriu o modal
+        const button = event.relatedTarget;
+
+        // Recupera o data-id
+        const sistema_id = button.getAttribute('sistema-id');
+        const sistema_input = button.getAttribute('sistema-input');
+        const unidade_input = button.getAttribute('unidade-input');
+        const name_input = button.getAttribute('name-input');
+        const oldExternalId_input = button.getAttribute('oldExternalId-input');
+        const newExternalId_input = button.getAttribute('newExternalId-input');
+
+        document.getElementById("id_input").value = sistema_id
+        document.getElementById("sistema_input").value = sistema_input
+        document.getElementById("unidade_input").value = unidade_input
+        document.getElementById("name_input").value = name_input
+        document.getElementById("oldExternalId_input").value = oldExternalId_input
+        document.getElementById("newExternalId_input").value = newExternalId_input
+
+
+    });
+</script>
