@@ -2,51 +2,40 @@ from typing import Optional
 
 from src.err.exceptios import EntityNotFoundException
 from fastapi import HTTPException
-from src.apps.alt_codigo_externo.alt_codigo_externo_repository import (
-    AlteracaoCodigoExternoRepository,
-)
-from src.apps.alt_codigo_externo.alt_codigo_externo_service import (
-    AlteracaoCodigoExternoService,
-)
-from src.apps.alt_codigo_externo.alt_codigo_externo_dto import (
-    AlteracaoCodigoExternoInput,
-    AlteracaoCodigoExternoOutput,
-)
+from src.apps.mod_ensino.mod_ensino_repository import ModEnsinoRepository
+from src.apps.mod_ensino.mod_ensino_service import ModEnsinoService
+from src.apps.mod_ensino.mod_ensino_dto import ModEnsinoInput, ModEnsinoOutput
 import pandas as pd
 
 
-class AlteracaoCodigoExternoController:
+class ModEnsinoController:
     def __init__(self):
-        self.service = AlteracaoCodigoExternoService()
-        self.repository = AlteracaoCodigoExternoRepository()
+        self.service = ModEnsinoService()
+        self.repository = ModEnsinoRepository()
 
-    def create(self, input: AlteracaoCodigoExternoInput) -> None:
+    def create(self, input: ModEnsinoInput) -> ModEnsinoOutput:
 
         try:
-            al_Codig_Externo = self.service.to_entity(input)
-            response = self.repository.save(al_Codig_Externo)
+            mod_ensino = self.service.to_entity(input)
+            response = self.repository.save(mod_ensino)
             response = self.service.to_dtoOutput(response)
             return response
 
         except Exception as err:
             print(f"ERRO INESPERADO >> {err}")
 
-    def read_all(
-        self, name_entity: Optional[str] = None
-    ) -> list[AlteracaoCodigoExternoOutput]:
+    def read_all(self, name_entity: Optional[str] = None) -> list[ModEnsinoOutput]:
         try:
-            all_entity = self.repository.find_all(name_entity)
-            response = [self.service.to_dtoOutput(x) for x in all_entity]
+            mod_ensino_all = self.repository.find_all(name_entity)
+            response = [self.service.to_dtoOutput(x) for x in mod_ensino_all]
             return response
         except Exception as err:
             print(f"ERRO INESPERADO >> {err}")
 
-    def update(
-        self, id: int, input: AlteracaoCodigoExternoInput
-    ) -> AlteracaoCodigoExternoOutput:
+    def update(self, id: int, input: ModEnsinoInput) -> ModEnsinoOutput:
         try:
-            al_Codig_Externo = self.service.to_entity(input)
-            response = self.repository.edit(id, al_Codig_Externo)
+            mod_ensino_all = self.service.to_entity(input)
+            response = self.repository.edit(id, mod_ensino_all)
             response = self.service.to_dtoOutput(response)
             return response
 
@@ -66,7 +55,7 @@ class AlteracaoCodigoExternoController:
             response = self.service.to_dtoOutput(entity)
             return response
         except EntityNotFoundException as err:
-            raise HTTPException(status_code=404, detail="Usuário não encontrado")
+            raise HTTPException(status_code=404, detail="id não encontrado")
         except Exception as err:
             print(f"ERRO INESPERADO >> {err}")
 
@@ -84,7 +73,7 @@ class AlteracaoCodigoExternoController:
             df = df.drop(columns=["id", "status", "sistema", "unidade"])
             # print(df.to_markdown(index=False))
             df.to_csv(
-                "output/external-id-management.unig_producao.csv",
+                "output/teaching-modality.unig_producao.csv",
                 index=False,
                 sep=";",
                 encoding="utf-8",
