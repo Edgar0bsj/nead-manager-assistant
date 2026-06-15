@@ -1,5 +1,6 @@
-from datetime import date
+from typing import Optional
 
+from src.err.exceptios import EntityNotFoundException
 from sqlalchemy.sql import func
 from sqlalchemy import create_engine
 from src.database.base import Base
@@ -26,16 +27,31 @@ class AlteracaoCodigoExternoRepository:
         self.session.commit()
         return entity_model
 
-    def find_all(self) -> list[AlteracaoCodigoExternoModel]:
+    def find_all(
+        self, name_entity: Optional[str] = None
+    ) -> list[AlteracaoCodigoExternoModel]:
         # return self.session.query(AlteracaoCodigoExternoModel).all()
-        return (
-            self.session.query(AlteracaoCodigoExternoModel)
-            .filter(AlteracaoCodigoExternoModel.deleted_at.is_(None))
-            .all()
+
+        query = self.session.query(AlteracaoCodigoExternoModel).filter(
+            AlteracaoCodigoExternoModel.deleted_at.is_(None)
         )
 
+        if name_entity:
+            query = query.filter(
+                AlteracaoCodigoExternoModel.entity.ilike(f"%{name_entity}%")
+            )
+
+        result = query.all()
+
+        return result
+
     def find(self, _id: int) -> AlteracaoCodigoExternoModel | None:
-        return self.session.query(AlteracaoCodigoExternoModel).filter_by(id=_id).first()
+        result = (
+            self.session.query(AlteracaoCodigoExternoModel).filter_by(id=_id).first()
+        )
+        if result is None:
+            raise EntityNotFoundException()
+        return result
 
     def edit(
         self, _id: int, entity_model: AlteracaoCodigoExternoModel
@@ -63,10 +79,22 @@ class AlteracaoCodigoExternoRepository:
         self.session.commit()
         return resultEntity
 
-    def find_all_by_ativo(self):
-        return (
-            self.session.query(AlteracaoCodigoExternoModel)
-            .filter(AlteracaoCodigoExternoModel.deleted_at.is_(None))
-            .filter(AlteracaoCodigoExternoModel.status == True)
-            .all()
+    def find_all_by(
+        self,
+        filtro_status: Optional[bool] = None,
+        filtro_sistema: Optional[str] = None,
+        filtro_unidade: Optional[str] = None,
+    ):
+        query = self.session.query(AlteracaoCodigoExternoModel).filter(
+            AlteracaoCodigoExternoModel.deleted_at.is_(None)
         )
+
+        if filtro_status:
+            query = query.filter_by(status=True)
+        if filtro_sistema:
+            query = query.filter_by(sistema=filtro_sistema)
+        if filtro_unidade:
+            query = query.filter_by(unidade=filtro_unidade)
+
+        results = query.all()
+        return results

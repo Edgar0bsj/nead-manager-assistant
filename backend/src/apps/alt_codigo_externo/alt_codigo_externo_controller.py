@@ -1,3 +1,7 @@
+from typing import Optional
+
+from src.err.exceptios import EntityNotFoundException
+from fastapi import HTTPException
 from src.apps.alt_codigo_externo.alt_codigo_externo_repository import (
     AlteracaoCodigoExternoRepository,
 )
@@ -26,14 +30,15 @@ class AlteracaoCodigoExternoController:
         except Exception as err:
             print(f"ERRO INESPERADO >> {err}")
 
-    def read_all(self) -> list[AlteracaoCodigoExternoOutput]:
+    def read_all(
+        self, name_entity: Optional[str] = None
+    ) -> list[AlteracaoCodigoExternoOutput]:
         try:
-            all_entity = self.repository.find_all()
+            all_entity = self.repository.find_all(name_entity)
             response = [self.service.to_dtoOutput(x) for x in all_entity]
             return response
         except Exception as err:
-            print(err)
-            raise
+            print(f"ERRO INESPERADO >> {err}")
 
     def update(
         self, id: int, input: AlteracaoCodigoExternoInput
@@ -44,29 +49,34 @@ class AlteracaoCodigoExternoController:
             return response
 
         except Exception as err:
-            print(err)
-            raise
+            print(f"ERRO INESPERADO >> {err}")
 
     def delete(self, id: int) -> None:
         try:
             self.repository.remove(id)
             return None
         except Exception as err:
-            print(err)
-            raise
+            print(f"ERRO INESPERADO >> {err}")
 
     def read_one(self, id: int):
         try:
             entity = self.repository.find(id)
             response = self.service.to_dtoOutput(entity)
             return response
+        except EntityNotFoundException as err:
+            raise HTTPException(status_code=404, detail="Usuário não encontrado")
         except Exception as err:
-            print(err)
-            raise
+            print(f"ERRO INESPERADO >> {err}")
 
-    def save_to_csv(self):
+    def save_to_csv(self, status_filter=None, sistema_filter=None, unidade_filter=None):
         try:
-            entity_ativos = self.repository.find_all_by_ativo()
+            entity_ativos = self.repository.find_all_by(
+                status_filter, sistema_filter, unidade_filter
+            )
+
+            if len(entity_ativos) <= 0:
+                raise EntityNotFoundException()
+
             entity_dict = [self.service.to_dict(x) for x in entity_ativos]
             df = pd.DataFrame(entity_dict)
             df = df.drop(columns=["id", "status", "sistema", "unidade"])
@@ -78,6 +88,10 @@ class AlteracaoCodigoExternoController:
                 encoding="utf-8",
             )
             return {"msg": "Arquivo salvo com sucesso!"}
+
+        except EntityNotFoundException as err:
+            raise HTTPException(
+                status_code=404, detail="Sem entidade ativos para exportação"
+            )
         except Exception as err:
-            print(err)
-            raise
+            print(f"ERRO INESPERADO >> {err}")
