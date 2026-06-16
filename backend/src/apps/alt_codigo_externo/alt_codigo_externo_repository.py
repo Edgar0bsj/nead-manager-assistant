@@ -30,11 +30,8 @@ class AlteracaoCodigoExternoRepository:
     def find_all(
         self, name_entity: Optional[str] = None
     ) -> list[AlteracaoCodigoExternoModel]:
-        # return self.session.query(AlteracaoCodigoExternoModel).all()
 
-        query = self.session.query(AlteracaoCodigoExternoModel).filter(
-            AlteracaoCodigoExternoModel.deleted_at.is_(None)
-        )
+        query = self.session.query(AlteracaoCodigoExternoModel)
 
         if name_entity:
             query = query.filter(
@@ -75,8 +72,8 @@ class AlteracaoCodigoExternoRepository:
             self.session.query(AlteracaoCodigoExternoModel).filter_by(id=_id).first()
         )
         resultEntity.status = False
-        resultEntity.deleted_at = func.now()
-        # self.session.delete(resultEntity)
+        # resultEntity.deleted_at = func.now()
+        self.session.delete(resultEntity)
         self.session.commit()
         return resultEntity
 

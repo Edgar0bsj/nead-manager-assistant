@@ -12,3 +12,5 @@ app.include_router(alt_codigos_externos_router)
 app.include_router(mod_ensino_router)
 # /nivel-ensino
 app.include_router(nivel_ensino_router)
+# /cursos
+app.include_router(nivel_ensino_router)

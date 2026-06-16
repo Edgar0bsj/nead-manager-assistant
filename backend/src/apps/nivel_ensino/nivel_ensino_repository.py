@@ -24,11 +24,8 @@ class NivelEnsinoRepository:
         return entity_model
 
     def find_all(self, name_entity: Optional[str] = None) -> list[NivelEnsinoModel]:
-        # return self.session.query(AlteracaoCodigoExternoModel).all()
 
-        query = self.session.query(NivelEnsinoModel).filter(
-            NivelEnsinoModel.deleted_at.is_(None)
-        )
+        query = self.session.query(NivelEnsinoModel)
 
         if name_entity:
             query = query.filter(NivelEnsinoModel.name.ilike(f"%{name_entity}%"))
@@ -59,8 +56,7 @@ class NivelEnsinoRepository:
     def remove(self, _id: int) -> NivelEnsinoModel | None:
         resultEntity = self.session.query(NivelEnsinoModel).filter_by(id=_id).first()
         resultEntity.status = False
-        resultEntity.deleted_at = func.now()
-        # self.session.delete(resultEntity)
+        self.session.delete(resultEntity)
         self.session.commit()
         return resultEntity
 
