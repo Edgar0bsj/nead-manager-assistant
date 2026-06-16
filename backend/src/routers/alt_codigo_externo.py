@@ -63,7 +63,7 @@ def read_all(
     return controller.read_all(name_entity)
 
 
-@router.post(
+@router.put(
     "/{id}",
     status_code=status.HTTP_200_OK,
     response_model=AlteracaoCodigoExternoOutput,
