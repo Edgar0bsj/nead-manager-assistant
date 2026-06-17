@@ -1,19 +1,28 @@
-<div class="modal fade" id="formulario_criacao" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+<div class="modal fade" id="ModalCreate" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form action="{{ url_for('create_add_acexterno') }}" method="post" class="needs-validation" novalidate>
+            <form action="{{url_for('cod_externo_create')}}" method="post" class="needs-validation" novalidate>
                 <div class="modal-header">
                     <h2 class="modal-title h5" id="formModalLabel">Add Código Externo</h2><button type="button"
                         class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <!-- BODY -->
+                    <div class="col-md"><label class="form-label" for="formName">Status</label><select name="status"
+                            class="form-select" required>
+                            <option value="true">Ativo</option>
+                            <option value="false">Desativado</option>
+                        </select>
+                        <div class="invalid-feedback">faz favor</div>
+                    </div>
                     <div class="row g-3">
                         <div class="col-md-6"><label class="form-label">Sistema</label><select name="sistema"
                                 class="form-select" required>
                                 <option value="">...</option>
+                                <option value="netterm">netterm</option>
+                                <option value="JACAD">JACAD</option>
+                                <option value="universa">universa</option>
                                 <option value="sophia">sophia</option>
-                                <option value="outros">outros</option>
                             </select>
                             <div class="invalid-feedback">faz favor</div>
                         </div>
@@ -29,7 +38,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md"><label class="form-label" for="formPlan">Nome</label><select name="name"
+                    <div class="col-md"><label class="form-label" for="formPlan">Nome</label><select name="entity"
                             class="form-select" required>
                             <option value="">...</option>
                             <option value="accessibility">accessibility</option>
@@ -77,29 +86,3 @@
         </div>
     </div>
 </div>
-<script>
-
-    const formCreatModal = document.getElementById('formulario_criacao');
-
-    formCreatModal.addEventListener('show.bs.modal', function (event) {
-
-        // Botão que abriu o modal
-        const eventClick = event.relatedTarget;
-
-        let teste = document.getElementById("add_salvar");
-        let data = {}
-
-        teste.addEventListener('click', function (event) {
-            data["sistema_input"] = document.getElementById("sistema_input").value
-            data["unidade_input"] = document.getElementById("unidade_input").value
-            data["nome_input"] = document.getElementById("nome_input").value
-            data["oldExternalId_input"] = document.getElementById("oldExternalId_input").value
-            data["newExternalId_input"] = document.getElementById("newExternalId_input").value
-        })
-
-        // Atualiza o botão de confirmação
-        // document.getElementById('add_salvar').href =
-        //     `/alt-codigo-externo/create`;
-
-    });
-</script>

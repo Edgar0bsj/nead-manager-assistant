@@ -1,5 +1,7 @@
 from typing import Optional
 
+from fastapi.responses import StreamingResponse
+
 from src.err.exceptios import EntityNotFoundException
 from fastapi import HTTPException
 from src.apps.alt_codigo_externo.alt_codigo_externo_repository import (
@@ -32,10 +34,16 @@ class AlteracaoCodigoExternoController:
             print(f"ERRO INESPERADO >> {err}")
 
     def read_all(
-        self, name_entity: Optional[str] = None
+        self,
+        entity_filter: Optional[str] = None,
+        status_filter: Optional[bool] = None,
+        sistema_filter: Optional[str] = None,
+        unidade_filter: Optional[str] = None,
     ) -> list[AlteracaoCodigoExternoOutput]:
         try:
-            all_entity = self.repository.find_all(name_entity)
+            all_entity = self.repository.find_all(
+                entity_filter, status_filter, sistema_filter, unidade_filter
+            )
             response = [self.service.to_dtoOutput(x) for x in all_entity]
             return response
         except Exception as err:
@@ -70,26 +78,26 @@ class AlteracaoCodigoExternoController:
         except Exception as err:
             print(f"ERRO INESPERADO >> {err}")
 
-    def save_to_csv(self, status_filter=None, sistema_filter=None, unidade_filter=None):
+    def save_to_csv(
+        self,
+        entity_filter: Optional[str] = None,
+        status_filter: Optional[bool] = None,
+        sistema_filter: Optional[str] = None,
+        unidade_filter: Optional[str] = None,
+    ):
         try:
-            entity_ativos = self.repository.find_all_by(
-                status_filter, sistema_filter, unidade_filter
+            all_entity = self.repository.find_all(
+                entity_filter, status_filter, sistema_filter, unidade_filter
             )
+            output_csv = self.service.csv_export(all_entity)
 
-            if len(entity_ativos) <= 0:
-                raise EntityNotFoundException()
-
-            entity_dict = [self.service.to_dict(x) for x in entity_ativos]
-            df = pd.DataFrame(entity_dict)
-            df = df.drop(columns=["id", "status", "sistema", "unidade"])
-            # print(df.to_markdown(index=False))
-            df.to_csv(
-                "output/external-id-management.unig_producao.csv",
-                index=False,
-                sep=";",
-                encoding="utf-8",
+            return StreamingResponse(
+                output_csv,
+                media_type="text/csv",
+                headers={
+                    "Content-Disposition": "attachment; filename=external-id-management.unig_producao.csv"
+                },
             )
-            return {"msg": "Arquivo salvo com sucesso!"}
 
         except EntityNotFoundException as err:
             raise HTTPException(

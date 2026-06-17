@@ -28,14 +28,31 @@ class AlteracaoCodigoExternoRepository:
         return entity_model
 
     def find_all(
-        self, name_entity: Optional[str] = None
+        self,
+        entity_filter: Optional[str] = None,
+        status_filter: Optional[bool] = None,
+        sistema_filter: Optional[str] = None,
+        unidade_filter: Optional[str] = None,
     ) -> list[AlteracaoCodigoExternoModel]:
 
         query = self.session.query(AlteracaoCodigoExternoModel)
 
-        if name_entity:
+        if entity_filter:
             query = query.filter(
-                AlteracaoCodigoExternoModel.entity.ilike(f"%{name_entity}%")
+                AlteracaoCodigoExternoModel.entity.ilike(f"%{entity_filter}%")
+            )
+        if status_filter is not None:
+            status_filter = 1 if status_filter else 0
+            query = query.filter(
+                AlteracaoCodigoExternoModel.status.ilike(f"%{status_filter}%")
+            )
+        if sistema_filter:
+            query = query.filter(
+                AlteracaoCodigoExternoModel.sistema.ilike(f"%{sistema_filter}%")
+            )
+        if unidade_filter:
+            query = query.filter(
+                AlteracaoCodigoExternoModel.unidade.ilike(f"%{unidade_filter}%")
             )
 
         result = query.all()
@@ -76,23 +93,3 @@ class AlteracaoCodigoExternoRepository:
         self.session.delete(resultEntity)
         self.session.commit()
         return resultEntity
-
-    def find_all_by(
-        self,
-        filtro_status: Optional[bool] = None,
-        filtro_sistema: Optional[str] = None,
-        filtro_unidade: Optional[str] = None,
-    ):
-        query = self.session.query(AlteracaoCodigoExternoModel).filter(
-            AlteracaoCodigoExternoModel.deleted_at.is_(None)
-        )
-
-        if filtro_status:
-            query = query.filter_by(status=True)
-        if filtro_sistema:
-            query = query.filter_by(sistema=filtro_sistema)
-        if filtro_unidade:
-            query = query.filter_by(unidade=filtro_unidade)
-
-        results = query.all()
-        return results

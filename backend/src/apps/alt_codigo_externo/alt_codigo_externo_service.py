@@ -1,3 +1,4 @@
+from src.err.exceptios import EntityNotFoundException
 from src.apps.alt_codigo_externo.alt_codigo_externo_model import (
     AlteracaoCodigoExternoModel,
 )
@@ -6,6 +7,8 @@ from src.apps.alt_codigo_externo.alt_codigo_externo_dto import (
     AlteracaoCodigoExternoOutput,
 )
 from typing import Any
+import pandas as pd
+from io import StringIO
 
 
 class AlteracaoCodigoExternoService:
@@ -42,3 +45,24 @@ class AlteracaoCodigoExternoService:
             "oldExternalId": entity_model.oldExternalId,
             "newExternalId": entity_model.newExternalId,
         }
+
+    def csv_export(self, all_data: list[AlteracaoCodigoExternoModel]) -> StringIO:
+        if len(all_data) <= 0:
+            raise EntityNotFoundException()
+
+        output = StringIO()
+
+        entity_dict = [self.to_dict(x) for x in all_data]
+        df = pd.DataFrame(entity_dict)
+        df = df.drop(columns=["id", "status", "sistema", "unidade"])
+
+        # print(df.to_markdown(index=False))
+        df.to_csv(
+            output,
+            index=False,
+            sep=";",
+            encoding="utf-8",
+        )
+        output.seek(0)
+
+        return output

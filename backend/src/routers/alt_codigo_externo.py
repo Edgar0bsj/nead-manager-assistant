@@ -31,12 +31,15 @@ def create(
 
 @router.get("/to-csv", status_code=status.HTTP_200_OK)
 def save_to_csv(
-    filter_status: Optional[bool] = True,
-    filter_sistema: Optional[str] = None,
-    filter_unidade: Optional[str] = None,
+    entity_filter: Optional[str] = None,
+    status_filter: Optional[bool] = None,
+    sistema_filter: Optional[str] = None,
+    unidade_filter: Optional[str] = None,
     controller: AlteracaoCodigoExternoController = Depends(get_depends),
 ):
-    return controller.save_to_csv(filter_status, filter_sistema, filter_unidade)
+    return controller.save_to_csv(
+        entity_filter, status_filter, sistema_filter, unidade_filter
+    )
 
 
 @router.get(
@@ -57,10 +60,15 @@ def read_one(
     response_model=list[AlteracaoCodigoExternoOutput],
 )
 def read_all(
-    name_entity: Optional[str] = None,
+    entity_filter: Optional[str] = None,
+    status_filter: Optional[bool] = None,
+    sistema_filter: Optional[str] = None,
+    unidade_filter: Optional[str] = None,
     controller: AlteracaoCodigoExternoController = Depends(get_depends),
 ):
-    return controller.read_all(name_entity)
+    return controller.read_all(
+        entity_filter, status_filter, sistema_filter, unidade_filter
+    )
 
 
 @router.put(

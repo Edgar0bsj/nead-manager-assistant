@@ -1,4 +1,4 @@
-<div class="modal fade" id="confirmModalExclusao" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+<div class="modal fade" id="ModalDelete" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -16,7 +16,7 @@
     </div>
 </div>
 <script>
-    const modal = document.getElementById('confirmModalExclusao');
+    const modal = document.getElementById('ModalDelete');
 
     modal.addEventListener('show.bs.modal', function (event) {
 
@@ -24,12 +24,12 @@
         const button = event.relatedTarget;
 
         // Recupera o data-id
-        const id = button.getAttribute('data-id');
+        const id = button.getAttribute('element-id');
 
 
         // Atualiza o botão de confirmação
         document.getElementById('btnConfirmDelete').href =
-            `/acexterno/delete/${id}`;
+            `/cod-externo/delete/${id}`;
 
     });
 </script>

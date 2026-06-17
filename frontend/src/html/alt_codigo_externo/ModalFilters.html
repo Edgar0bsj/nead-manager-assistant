@@ -1,0 +1,71 @@
+<div class="modal fade" id="ModalFilters" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form action="/cod-externo/" method="get">
+                <div class="modal-header">
+                    <h2 class="modal-title h5">Filtros</h2><button type="button" class="btn-close"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- BODY -->
+                    <div class="row mb-3">
+                        <div class="col-md"><label class="form-label">Entity</label><input id="entity_filter"
+                                class="form-control" name="filter_entity">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6"><label class="form-label">Sistema</label><select class="form-select"
+                                id="sistema_filter" name="filter_sistema">
+                                <option value="">...</option>
+                                <option value="netterm">netterm</option>
+                                <option value="JACAD">JACAD</option>
+                                <option value="universa">universa</option>
+                                <option value="sophia">sophia</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6"><label class="form-label">Unidade</label><select class="form-select"
+                                id="unidade_filter" name="filter_unidade">
+                                <option value="">...</option>
+                                <option value="nova iguacu">nova iguacu</option>
+                                <option value="itaperuna">itaperuna</option>
+                                <option value="cidade nova">cidade nova</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6"><label class="form-label">Status</label><select class="form-select"
+                                id="status_filter" name="filter_status">
+                                <option value="true">Ativo</option>
+                                <option value="false">Desativado</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- //BODY -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="filters_btn">Filtrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- <script>
+    const formFilterModal = document.getElementById('ModalFilters');
+
+    formFilterModal.addEventListener('show.bs.modal', function (event) {
+
+
+        document.getElementById('filters_btn').addEventListener('click', () => {
+
+            let entity = document.getElementById("entity_filter").value;
+            let sistema = document.getElementById("sistema_filter").value;
+            let unidade = document.getElementById("unidade_filter").value;
+            let status = document.getElementById("status_filter").value;
+
+            // window.location.href =
+            //     `/cod-externo/?filter_status=${encodeURIComponent(status)}&filter_sistema=${encodeURIComponent(sistema)}&filter_unidade=${encodeURIComponent(unidade)}&filter_entity=${encodeURIComponent(entity)}`;
+        });
+    });
+</script> -->

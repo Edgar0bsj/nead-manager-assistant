@@ -3,6 +3,6 @@
 
 from src.config import app
 
-from src.routers.acexterno_router import router as ac_externo_router
+from src.routers.cod_externo_router import router as ac_externo_router
 
 app.include_router(ac_externo_router)

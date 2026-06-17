@@ -1,26 +1,37 @@
-<div class="modal fade" id="formulario_edicao" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+<div class="modal fade" id="ModalUpdate" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form action="{{ url_for('update_acexterno') }}" method="post" class="needs-validation" novalidate>
-                <input type="hidden" name="id" id="id_input">
+            <form action="{{ url_for('cod_externo_update') }}" method="post" class="needs-validation" novalidate>
+                <!-- ID -->
+                <input type="hidden" id="edit_id" name="id">
+                <!-- //ID -->
                 <div class="modal-header">
                     <h2 class="modal-title h5" id="formModalLabel">Edição</h2><button type="button" class="btn-close"
                         data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <!-- BODY -->
+                    <div class="col-md"><label class="form-label" for="formName">Status</label><select id="edit_status"
+                            name="status" class="form-select" required>
+                            <option value="true">Ativo</option>
+                            <option value="false">Desativado</option>
+                        </select>
+                        <div class="invalid-feedback">faz favor</div>
+                    </div>
                     <div class="row g-3">
                         <div class="col-md-6"><label class="form-label">Sistema</label><select name="sistema"
-                                id="sistema_input" class="form-select" required>
+                                id="edit_sistema" class="form-select" required>
                                 <option value="">...</option>
+                                <option value="netterm">netterm</option>
+                                <option value="JACAD">JACAD</option>
+                                <option value="universa">universa</option>
                                 <option value="sophia">sophia</option>
-                                <option value="outros">outros</option>
                             </select>
                             <div class="invalid-feedback">faz favor</div>
                         </div>
 
-                        <div class="col-md-6"><label class="form-label">Unidade</label><select name="unidade"
-                                id="unidade_input" class="form-select" required>
+                        <div class="col-md-6"><label class="form-label" for="formPlan">Unidade</label><select
+                                id="edit_unidade" name="unidade" class="form-select" required>
                                 <option value="">...</option>
                                 <option value="nova iguacu">nova iguacu</option>
                                 <option value="itaperuna">itaperuna</option>
@@ -30,8 +41,8 @@
                         </div>
                     </div>
 
-                    <div class="col-md"><label class="form-label">Nome</label><select name="name" id="name_input"
-                            class="form-select" required>
+                    <div class="col-md"><label class="form-label" for="formPlan">Entity</label><select name="entity"
+                            id="edit_entity" class="form-select" required>
                             <option value="">...</option>
                             <option value="accessibility">accessibility</option>
                             <option value="campus">campus</option>
@@ -59,13 +70,13 @@
                         <div class="invalid-feedback">faz favor</div>
                     </div>
 
-                    <div class="col-md"><label class="form-label">oldExternalId</label><input name="oldExternalId"
-                            id="oldExternalId_input" class="form-control" required>
+                    <div class="col-md"><label class="form-label" for="formName">oldExternalId</label><input
+                            name="oldExternalId" id="edit_oldExternalId" class="form-control" required>
                         <div class="invalid-feedback">faz favor</div>
                     </div>
 
-                    <div class="col-md"><label class="form-label">newExternalId</label><input name="newExternalId"
-                            id="newExternalId_input" class="form-control" required>
+                    <div class="col-md"><label class="form-label" for="formName">newExternalId</label><input
+                            name="newExternalId" id="newExternalId" class="form-control" required>
                         <div class="invalid-feedback">faz favor</div>
                     </div>
                     <!-- //BODY -->
@@ -80,28 +91,32 @@
 </div>
 <script>
 
-    const formModal = document.getElementById('formulario_edicao');
+    const MODAL_EDIT = document.getElementById('ModalUpdate');
 
-    formModal.addEventListener('show.bs.modal', function (event) {
+    MODAL_EDIT.addEventListener('show.bs.modal', function (event) {
 
         // Botão que abriu o modal
         const button = event.relatedTarget;
 
-        // Recupera o data-id
-        const sistema_id = button.getAttribute('sistema-id');
-        const sistema_input = button.getAttribute('sistema-input');
-        const unidade_input = button.getAttribute('unidade-input');
-        const name_input = button.getAttribute('name-input');
-        const oldExternalId_input = button.getAttribute('oldExternalId-input');
-        const newExternalId_input = button.getAttribute('newExternalId-input');
+        // Recupera os atributos
+        let element_id = button.getAttribute('element-id');
+        let element_status = button.getAttribute('element-status');
+        let element_sistema = button.getAttribute('element-sistema');
+        let element_unidade = button.getAttribute('element-unidade');
+        let element_entity = button.getAttribute('element-entity');
+        let element_oldExternalId = button.getAttribute('element-oldExternalId');
+        let element_newExternalId = button.getAttribute('element-newExternalId');
 
-        document.getElementById("id_input").value = sistema_id
-        document.getElementById("sistema_input").value = sistema_input
-        document.getElementById("unidade_input").value = unidade_input
-        document.getElementById("name_input").value = name_input
-        document.getElementById("oldExternalId_input").value = oldExternalId_input
-        document.getElementById("newExternalId_input").value = newExternalId_input
+        let _status = element_status == "Ativo" ? "true" : "false"
 
+
+        document.getElementById("edit_id").value = element_id
+        document.getElementById("edit_status").value = _status
+        document.getElementById("edit_sistema").value = element_sistema
+        document.getElementById("edit_unidade").value = element_unidade
+        document.getElementById("edit_entity").value = element_entity
+        document.getElementById("edit_oldExternalId").value = element_oldExternalId
+        document.getElementById("newExternalId").value = element_newExternalId
 
     });
 </script>
