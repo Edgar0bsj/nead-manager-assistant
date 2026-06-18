@@ -11,74 +11,85 @@
                 </div>
                 <div class="modal-body">
                     <!-- BODY -->
-                    <div class="col-md"><label class="form-label" for="formName">Status</label><select id="edit_status"
-                            name="status" class="form-select" required>
-                            <option value="true">Ativo</option>
-                            <option value="false">Desativado</option>
-                        </select>
-                        <div class="invalid-feedback">faz favor</div>
-                    </div>
-                    <div class="row g-3">
-                        <div class="col-md-6"><label class="form-label">Sistema</label><select name="sistema"
-                                id="edit_sistema" class="form-select" required>
-                                <option value="">...</option>
-                                <option value="netterm">netterm</option>
-                                <option value="JACAD">JACAD</option>
-                                <option value="universa">universa</option>
-                                <option value="sophia">sophia</option>
-                            </select>
-                            <div class="invalid-feedback">faz favor</div>
+                    <div class="container text-center">
+                        <div class="row mb-3">
+                            <div class="col-md"><label class="form-label" for="formName">Status</label><select
+                                    id="edit_status" name="status" class="form-select" required>
+                                    <option value="true">Ativo</option>
+                                    <option value="false">Desativado</option>
+                                </select>
+                                <div class="invalid-feedback">faz favor</div>
+                            </div>
                         </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6"><label class="form-label">Sistema</label><select name="sistema"
+                                    id="edit_sistema" class="form-select" required>
+                                    <option value="">...</option>
+                                    <option value="netterm">netterm</option>
+                                    <option value="JACAD">JACAD</option>
+                                    <option value="universa">universa</option>
+                                    <option value="sophia">sophia</option>
+                                </select>
+                                <div class="invalid-feedback">faz favor</div>
+                            </div>
 
-                        <div class="col-md-6"><label class="form-label" for="formPlan">Unidade</label><select
-                                id="edit_unidade" name="unidade" class="form-select" required>
-                                <option value="">...</option>
-                                <option value="nova iguacu">nova iguacu</option>
-                                <option value="itaperuna">itaperuna</option>
-                                <option value="cidade nova">cidade nova</option>
-                            </select>
-                            <div class="invalid-feedback">faz favor</div>
+                            <div class="col-md-6"><label class="form-label" for="formPlan">Unidade</label><select
+                                    id="edit_unidade" name="unidade" class="form-select" required>
+                                    <option value="">...</option>
+                                    <option value="nova iguacu">nova iguacu</option>
+                                    <option value="itaperuna">itaperuna</option>
+                                    <option value="cidade nova">cidade nova</option>
+                                </select>
+                                <div class="invalid-feedback">faz favor</div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md"><label class="form-label" for="formPlan">Entity</label><select
+                                    name="entity" id="edit_entity" class="form-select" required>
+                                    <option value="">...</option>
+                                    <option value="accessibility">accessibility</option>
+                                    <option value="campus">campus</option>
+                                    <option value="class">class</option>
+                                    <option value="course">course</option>
+                                    <option value="curriculum">curriculum</option>
+                                    <option value="educational-hub">educational-hub</option>
+                                    <option value="education-level">education-level</option>
+                                    <option value="enrollment">enrollment</option>
+                                    <option value="enrollment-class-subject-status">enrollment-class-subject-status
+                                    </option>
+                                    <option value="enrollment-group">enrollment-group</option>
+                                    <option value="enrollment-period">enrollment-period</option>
+                                    <option value="enrollment-status">enrollment-status</option>
+                                    <option value="enrollment-type">enrollment-type</option>
+                                    <option value="intake">intake</option>
+                                    <option value="period">period</option>
+                                    <option value="person">person</option>
+                                    <option value="shift">shift</option>
+                                    <option value="subject">subject</option>
+                                    <option value="subject-category">subject-category</option>
+                                    <option value="teaching-modality">teaching-modality</option>
+                                    <option value="class-subject">class-subject</option>
+                                    <option value="class-subject-role">class-subject-role</option>
+                                </select>
+                                <div class="invalid-feedback">faz favor</div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6"><label class="form-label" for="formName">oldExternalId</label><input
+                                    name="oldExternalId" id="edit_oldExternalId" class="form-control" required>
+                                <div class="invalid-feedback">faz favor</div>
+                            </div>
+
+                            <div class="col-md-6"><label class="form-label" for="formName">newExternalId</label><input
+                                    name="newExternalId" id="newExternalId" class="form-control" required>
+                                <div class="invalid-feedback">faz favor</div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="col-md"><label class="form-label" for="formPlan">Entity</label><select name="entity"
-                            id="edit_entity" class="form-select" required>
-                            <option value="">...</option>
-                            <option value="accessibility">accessibility</option>
-                            <option value="campus">campus</option>
-                            <option value="class">class</option>
-                            <option value="course">course</option>
-                            <option value="curriculum">curriculum</option>
-                            <option value="educational-hub">educational-hub</option>
-                            <option value="education-level">education-level</option>
-                            <option value="enrollment">enrollment</option>
-                            <option value="enrollment-class-subject-status">enrollment-class-subject-status</option>
-                            <option value="enrollment-group">enrollment-group</option>
-                            <option value="enrollment-period">enrollment-period</option>
-                            <option value="enrollment-status">enrollment-status</option>
-                            <option value="enrollment-type">enrollment-type</option>
-                            <option value="intake">intake</option>
-                            <option value="period">period</option>
-                            <option value="person">person</option>
-                            <option value="shift">shift</option>
-                            <option value="subject">subject</option>
-                            <option value="subject-category">subject-category</option>
-                            <option value="teaching-modality">teaching-modality</option>
-                            <option value="class-subject">class-subject</option>
-                            <option value="class-subject-role">class-subject-role</option>
-                        </select>
-                        <div class="invalid-feedback">faz favor</div>
-                    </div>
 
-                    <div class="col-md"><label class="form-label" for="formName">oldExternalId</label><input
-                            name="oldExternalId" id="edit_oldExternalId" class="form-control" required>
-                        <div class="invalid-feedback">faz favor</div>
-                    </div>
 
-                    <div class="col-md"><label class="form-label" for="formName">newExternalId</label><input
-                            name="newExternalId" id="newExternalId" class="form-control" required>
-                        <div class="invalid-feedback">faz favor</div>
-                    </div>
+
                     <!-- //BODY -->
                 </div>
                 <div class="modal-footer">

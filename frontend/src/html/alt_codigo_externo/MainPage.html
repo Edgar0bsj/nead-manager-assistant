@@ -9,7 +9,7 @@ Codigo Externo
     <div class="page-heading-copy">
       <span class="page-icon"><i class="bi bi-folder-fill" aria-hidden="true"></i></span>
       <div>
-        <p class="eyebrow mb-1">Overview</p>
+        <p class="eyebrow mb-1">AVAUNI</p>
         <h1 class="h3 mb-1">Códigos externo</h1>
         <p class="text-muted mb-0">Alteração de código externo.</p>
       </div>
@@ -19,7 +19,7 @@ Codigo Externo
       {% set csv_url = url_for('cod_externo_csv') %}
       <a class="btn btn-outline-secondary btn-sm" type="button"
         href="{{ csv_url }}?filter_status={{ download_filters['status_filter'] }}&filter_sistema={{download_filters['sistema_filter']}}&filter_unidade={{download_filters['unidade_filter']}}&filter_entity={{download_filters['entity_filter']}}">
-        <i class="bi bi-download" aria-hidden="true"></i> Baixar</a>
+        <i class="bi bi-download" aria-hidden="true"></i> Export</a>
       <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#ModalCreate">
         <i class="bi bi-file-earmark-plus" aria-hidden="true"></i>
         Add
@@ -67,8 +67,12 @@ Codigo Externo
           {% for element in data %}
           <tr>
             <td>
-
-              <p class="fw-semibold mb-0">{{ element["status"] }}</p>
+              {% if element["status"] == "Ativo" %}
+              <span class="badge text-bg-info">Ativo</span>
+              {% endif %}
+              {% if element["status"] == "Desativado" %}
+              <span class="badge text-bg-danger">Desativado</span>
+              {% endif %}
     </div>
 </div>
 </td>

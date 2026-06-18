@@ -22,14 +22,12 @@ def create(
     return controller.create(payload)
 
 
-@router.get("/to-csv", status_code=status.HTTP_200_OK)
+@router.get("/export-csv", status_code=status.HTTP_200_OK)
 def save_to_csv(
     filter_status: Optional[bool] = True,
-    filter_sistema: Optional[str] = None,
-    filter_unidade: Optional[str] = None,
     controller: ModEnsinoController = Depends(get_depends),
 ):
-    return controller.save_to_csv(filter_status, filter_sistema, filter_unidade)
+    return controller.export_csv(filter_status)
 
 
 @router.get(
@@ -50,10 +48,9 @@ def read_one(
     response_model=list[ModEnsinoOutput],
 )
 def read_all(
-    name_entity: Optional[str] = None,
     controller: ModEnsinoController = Depends(get_depends),
 ):
-    return controller.read_all(name_entity)
+    return controller.read_all()
 
 
 @router.post(

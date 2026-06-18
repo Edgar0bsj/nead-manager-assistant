@@ -1,0 +1,88 @@
+<div class="modal fade" id="ModalUpdate" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- form -->
+            <form action="{{url_for('mod_ensino_update')}}" method="post" class="needs-validation" novalidate="">
+                <input type="hidden" id="id_update" name="id">
+                <div class="modal-header">
+                    <h2 class="modal-title h5" id="formModalLabel">Editar Modalidade</h2><button type="button"
+                        class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="container text-center">
+                        <div class="row mb-3 justify-content-md-center">
+                            <div class="col-md-4"><label class="form-label" for="formPlan">Status</label>
+                                <select class="form-select" required="" name="status" id="status_update">
+                                    <option value="">...</option>
+                                    <option value="true">Ativo</option>
+                                    <option value="false">Desativado</option>
+                                </select>
+                                <div class="invalid-feedback">Faz Favor.</div>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="form-label" for="formName">Nome</label>
+                                <input class="form-control" required="" name="name" id="name_update">
+                                <div class="invalid-feedback">Faz Favor.</div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6"><label class="form-label" for="formPlan">
+                                    Tipo da modalidade</label>
+                                <select class="form-select" required="" name="type_modali" id="typeModali_update">
+                                    <option value="">...</option>
+                                    <option value="face_to_face">face_to_face</option>
+                                    <option value="blended_learning">blended_learning</option>
+                                    <option value="distance_learning">distance_learning</option>
+                                </select>
+                                <div class="invalid-feedback">Faz Favor.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="formName">externalId</label>
+                                <input class="form-control" required="" name="externalId" id="externalId_update">
+                                <div class="invalid-feedback">Faz Favor.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        Voltar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+
+    const MODAL_UPDATE = document.getElementById('ModalUpdate');
+
+    MODAL_UPDATE.addEventListener('show.bs.modal', function (event) {
+
+        // Botão que abriu o modal
+        const button = event.relatedTarget;
+
+        // Recupera os atributos
+        let element_id = button.getAttribute('element-id');
+        let element_status = button.getAttribute('element-status');
+        let element_name = button.getAttribute('element-name');
+        let element_externalId = button.getAttribute('element-externalId');
+        let element_teachingModalityTypeId = button.getAttribute('element-teachingModalityTypeId');
+
+        let status = element_status == "True" ? "true" : "false"
+
+        document.getElementById("id_update").value = element_id
+        document.getElementById("status_update").value = status
+        document.getElementById("name_update").value = element_name
+        document.getElementById("typeModali_update").value = element_teachingModalityTypeId
+        document.getElementById("externalId_update").value = element_externalId
+
+
+    });
+</script>

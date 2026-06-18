@@ -97,14 +97,6 @@ async def update(
 ):
     status = True if status == "true" else False
 
-    print(id)
-    print(status)
-    print(sistema)
-    print(unidade)
-    print(entity)
-    print(oldExternalId)
-    print(newExternalId)
-
     async with httpx.AsyncClient() as client:
         response = await client.put(
             f"http://127.0.0.1:8080/alt-codigos-externos/{id}",

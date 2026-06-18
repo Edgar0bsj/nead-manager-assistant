@@ -1,0 +1,34 @@
+<div class="modal fade" id="ModalDelete" tabindex="-1" aria-labelledby="confirmModalLabel" style="display: none;"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form action="{{url_for('mod_ensino_del')}}" method="post" class="needs-validation" novalidate="">
+                <input type="hidden" id="data_id" name="id">
+                <div class="modal-header">
+                    <h2 class="modal-title h5" id="confirmModalLabel">Certeza ?</h2><button type="button"
+                        class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">Não pode ser revertida essa ação, então pense bem aí.</div>
+                <div class="modal-footer"><button type="button" class="btn btn-outline-secondary"
+                        data-bs-dismiss="modal">Voltar</button>
+                    <button type="submit" class="btn btn-primary">Confirmar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+
+    const ModalDelete = document.getElementById('ModalDelete');
+
+    ModalDelete.addEventListener('show.bs.modal', function (event) {
+
+        // Botão que abriu o modal
+        const button = event.relatedTarget;
+
+        // Recupera os atributos
+        let element_id = button.getAttribute('element-id');
+
+        document.getElementById("data_id").value = element_id
+    });
+</script>

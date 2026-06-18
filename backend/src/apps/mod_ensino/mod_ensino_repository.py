@@ -23,12 +23,12 @@ class ModEnsinoRepository:
         self.session.commit()
         return entity_model
 
-    def find_all(self, name_entity: Optional[str] = None) -> list[ModEnsinoModel]:
+    def find_all(self, filter_status: Optional[bool] = None) -> list[ModEnsinoModel]:
 
         query = self.session.query(ModEnsinoModel)
 
-        if name_entity:
-            query = query.filter(ModEnsinoModel.name.ilike(f"%{name_entity}%"))
+        if filter_status is not None:
+            query = query.filter(ModEnsinoModel.status == True)
 
         result = query.all()
 
@@ -44,8 +44,6 @@ class ModEnsinoRepository:
         newEntity = self.session.query(ModEnsinoModel).filter_by(id=_id).first()
 
         newEntity.status = entity_model.status
-        newEntity.sistema = entity_model.sistema
-        newEntity.unidade = entity_model.unidade
         newEntity.name = entity_model.name
         newEntity.externalId = entity_model.externalId
         newEntity.teachingModalityTypeId = entity_model.teachingModalityTypeId
@@ -55,27 +53,6 @@ class ModEnsinoRepository:
 
     def remove(self, _id: int) -> ModEnsinoModel | None:
         resultEntity = self.session.query(ModEnsinoModel).filter_by(id=_id).first()
-        resultEntity.status = False
         self.session.delete(resultEntity)
         self.session.commit()
         return resultEntity
-
-    def find_all_by(
-        self,
-        filtro_status: Optional[bool] = None,
-        filtro_sistema: Optional[str] = None,
-        filtro_unidade: Optional[str] = None,
-    ):
-        query = self.session.query(ModEnsinoModel).filter(
-            ModEnsinoModel.deleted_at.is_(None)
-        )
-
-        if filtro_status:
-            query = query.filter_by(status=True)
-        if filtro_sistema:
-            query = query.filter_by(sistema=filtro_sistema)
-        if filtro_unidade:
-            query = query.filter_by(unidade=filtro_unidade)
-
-        results = query.all()
-        return results

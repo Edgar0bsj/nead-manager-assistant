@@ -2,7 +2,6 @@
 from fastapi import FastAPI
 from src.routers.alt_codigo_externo import router as alt_codigos_externos_router
 from src.routers.mod_ensino import router as mod_ensino_router
-from src.routers.nivel_ensino import router as nivel_ensino_router
 
 app = FastAPI()
 
@@ -10,7 +9,3 @@ app = FastAPI()
 app.include_router(alt_codigos_externos_router)
 # /mods-ensino
 app.include_router(mod_ensino_router)
-# /nivel-ensino
-app.include_router(nivel_ensino_router)
-# /cursos
-app.include_router(nivel_ensino_router)

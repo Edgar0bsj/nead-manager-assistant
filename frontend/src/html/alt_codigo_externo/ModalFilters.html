@@ -8,37 +8,40 @@
                 </div>
                 <div class="modal-body">
                     <!-- BODY -->
-                    <div class="row mb-3">
-                        <div class="col-md"><label class="form-label">Entity</label><input id="entity_filter"
-                                class="form-control" name="filter_entity">
+                    <div class="container text-center">
+
+                        <div class="row mb-3">
+                            <div class="col-md-6"><label class="form-label">Sistema</label><select class="form-select"
+                                    id="sistema_filter" name="filter_sistema">
+                                    <option value="">...</option>
+                                    <option value="netterm">netterm</option>
+                                    <option value="JACAD">JACAD</option>
+                                    <option value="universa">universa</option>
+                                    <option value="sophia">sophia</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6"><label class="form-label">Unidade</label><select class="form-select"
+                                    id="unidade_filter" name="filter_unidade">
+                                    <option value="">...</option>
+                                    <option value="nova iguacu">nova iguacu</option>
+                                    <option value="itaperuna">itaperuna</option>
+                                    <option value="cidade nova">cidade nova</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6"><label class="form-label">Sistema</label><select class="form-select"
-                                id="sistema_filter" name="filter_sistema">
-                                <option value="">...</option>
-                                <option value="netterm">netterm</option>
-                                <option value="JACAD">JACAD</option>
-                                <option value="universa">universa</option>
-                                <option value="sophia">sophia</option>
-                            </select>
+                        <div class="row mb-3">
+                            <div class="col-md-6"><label class="form-label">Status</label><select class="form-select"
+                                    id="status_filter" name="filter_status">
+                                    <option value="true">Ativo</option>
+                                    <option value="false">Desativado</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6"><label class="form-label">Entity</label><input id="entity_filter"
+                                    class="form-control" name="filter_entity">
+                            </div>
                         </div>
-                        <div class="col-md-6"><label class="form-label">Unidade</label><select class="form-select"
-                                id="unidade_filter" name="filter_unidade">
-                                <option value="">...</option>
-                                <option value="nova iguacu">nova iguacu</option>
-                                <option value="itaperuna">itaperuna</option>
-                                <option value="cidade nova">cidade nova</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6"><label class="form-label">Status</label><select class="form-select"
-                                id="status_filter" name="filter_status">
-                                <option value="true">Ativo</option>
-                                <option value="false">Desativado</option>
-                            </select>
-                        </div>
+
+
                     </div>
 
                     <!-- //BODY -->

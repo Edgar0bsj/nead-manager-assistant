@@ -1,6 +1,7 @@
 @echo off
 
 start cmd /k "cd backend && venv\Scripts\activate && uvicorn src.main:app --reload --port 8080"
+timeout /t 2 > nul
 
 start cmd /k "cd frontend && venv\Scripts\activate && uvicorn src.app:app --reload --port 8000"
 

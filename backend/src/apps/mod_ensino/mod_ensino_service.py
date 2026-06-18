@@ -1,14 +1,16 @@
+from io import StringIO
+
+from src.err.exceptios import EntityNotFoundException
 from src.apps.mod_ensino.mod_ensino_model import ModEnsinoModel
 from src.apps.mod_ensino.mod_ensino_dto import ModEnsinoInput, ModEnsinoOutput
 from typing import Any
+import pandas as pd
 
 
 class ModEnsinoService:
     def to_entity(self, dto: ModEnsinoInput) -> ModEnsinoModel:
         return ModEnsinoModel(
             status=dto.status,
-            sistema=dto.sistema,
-            unidade=dto.unidade,
             name=dto.name,
             externalId=dto.externalId,
             teachingModalityTypeId=dto.teachingModalityTypeId,
@@ -18,8 +20,6 @@ class ModEnsinoService:
         return ModEnsinoOutput(
             id=entity.id,
             status=entity.status,
-            sistema=entity.sistema,
-            unidade=entity.unidade,
             name=entity.name,
             externalId=entity.externalId,
             teachingModalityTypeId=entity.teachingModalityTypeId,
@@ -29,9 +29,28 @@ class ModEnsinoService:
         return {
             "id": entity_model.id,
             "status": entity_model.status,
-            "sistema": entity_model.sistema,
-            "unidade": entity_model.unidade,
             "name": entity_model.name,
             "externalId": entity_model.externalId,
             "teachingModalityTypeId": entity_model.teachingModalityTypeId,
         }
+
+    def output_csv(self, all_entity: list[ModEnsinoModel]):
+        if len(all_entity) <= 0:
+            raise EntityNotFoundException()
+
+        output = StringIO()
+
+        entity_dict = [self.to_dict(x) for x in all_entity]
+        df = pd.DataFrame(entity_dict)
+
+        df = df.drop(columns=["id", "status"])
+        # print(df.to_markdown(index=False))
+        df.to_csv(
+            output,
+            index=False,
+            sep=";",
+            encoding="utf-8",
+        )
+        output.seek(0)
+
+        return output
