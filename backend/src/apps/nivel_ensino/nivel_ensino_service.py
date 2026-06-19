@@ -44,7 +44,7 @@ class NivelEnsinoService:
         df = pd.DataFrame(entity_dict)
 
         df = df.drop(columns=["id", "status"])
-        print(df.to_markdown(index=False))
+        # print(df.to_markdown(index=False))
         df.to_csv(
             output,
             index=False,

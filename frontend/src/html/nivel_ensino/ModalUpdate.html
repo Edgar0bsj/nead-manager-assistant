@@ -3,6 +3,9 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <form class="needs-validation" novalidate="">
+                <!-- ID -->
+                <input type="hidden" id="id_update" name="id">
+                <!-- // ID -->
                 <div class="modal-header">
                     <h2 class="modal-title h5" id="formModalLabel">Editar Nivel de Ensino</h2><button type="button"
                         class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -11,23 +14,31 @@
                     <!-- BODY -->
                     <div class="container text-center">
                         <div class="row justify-content-md-center mb-3">
+                            <div class="col-md-6"><label class="form-label">Status</label><select class="form-select"
+                                    name="status" id="status_update" required="">
+                                    <option value="">...</option>
+                                    <option value="true">Ativado</option>
+                                    <option value="false">Desativado</option>
+                                </select>
+                                <div class="invalid-feedback">Faz favor.</div>
+                            </div>
                             <div class="col-md-6">
                                 <label class="form-label">name</label>
-                                <input class="form-control" required="">
+                                <input class="form-control" required="" name="name" id="name_update">
                                 <div class="invalid-feedback">Faz favor.</div>
                             </div>
                         </div>
                         <div class="row justify-content-md-center mb-3">
                             <div class="col-md-6">
                                 <label class="form-label">externalId</label>
-                                <input class="form-control" required="">
+                                <input class="form-control" required="" name="externalId" id="externalId_update">
                                 <div class="invalid-feedback">Faz favor.</div>
                             </div>
                         </div>
                         <div class="row justify-content-md-center mb-3">
-                            <div class="col-md-6"><label class="form-label"
-                                    for="formPlan">educationLevelTypeId</label><select class="form-select" id="formPlan"
-                                    required="">
+                            <div class="col-md-6"><label class="form-label">educationLevelTypeId</label>
+                                <select class="form-select" name="educationLevelTypeId" required=""
+                                    id="educationLevelTypeId_update">
                                     <option value="">...</option>
                                     <option value="graduate">graduate</option>
                                     <option value="undergraduate">undergraduate</option>
@@ -47,3 +58,31 @@
         </div>
     </div>
 </div>
+
+<script>
+
+    const MODAL_UPDATE = document.getElementById('ModalUpdate');
+
+    MODAL_UPDATE.addEventListener('show.bs.modal', function (event) {
+
+        // Botão que abriu o modal
+        const button = event.relatedTarget;
+
+        // Recupera os atributos
+        let element_id = button.getAttribute('element-id');
+        let element_status = button.getAttribute('element-status');
+        let element_name = button.getAttribute('element-name');
+        let element_externalId = button.getAttribute('element-externalId');
+        let element_educationLevelTypeId = button.getAttribute('element-educationLevelTypeId');
+
+        let status = element_status == "True" ? "true" : "false"
+
+        document.getElementById("id_update").value = element_id
+        document.getElementById("status_update").value = status
+        document.getElementById("name_update").value = element_name
+        document.getElementById("externalId_update").value = element_externalId
+        document.getElementById("educationLevelTypeId_update").value = element_educationLevelTypeId
+
+
+    });
+</script>

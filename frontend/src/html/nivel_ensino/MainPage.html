@@ -16,7 +16,8 @@ Nivel de ensino
 
             <div class="heading-actions">
                 <!-- Download CSV -->
-                <a class="btn btn-outline-secondary btn-sm" type="button"><i class="bi bi-download"
+                <a href="http://127.0.0.1:8080/nivel-ensino/export-csv?filter_status=true"
+                    class="btn btn-outline-secondary btn-sm" type="button"><i class="bi bi-download"
                         aria-hidden="true"></i>Export</a>
                 <!-- // Download CSV -->
 
@@ -35,18 +36,25 @@ Nivel de ensino
         <section class="panel blank-panel">
             <div class="container">
                 <div class="row">
+                    {% for element in data %}
                     <div class="col-md-4 mb-3">
                         <div class="panel h-100 text-center profile-card">
                             <!-- name -->
-                            <h2 class="h5 mt-3 mb-4">{{ 'Name' }}</h2>
+                            <h2 class="h5 mt-3 mb-4">{{ element['name'] }}</h2>
                             <div class="d-flex justify-content-center gap-2">
+                                {% if element['status'] %}
                                 <span class="badge text-bg-primary">Ativo</span>
+                                {% endif %}
+                                {% if not element['status'] %}
+                                <span class="badge text-bg-danger">Desativado</span>
+                                {% endif %}
                             </div>
                             <div class="info-list mt-4 text-start">
                                 <!-- externalId -->
-                                <div><span>externalId</span><strong>{{ 'Codigo Externo' }}</strong></div>
+                                <div><span>externalId</span><strong>{{ element['externalId'] }}</strong></div>
                                 <!-- educationLevelTypeId -->
-                                <div><span>educationLevelTypeId</span><strong>{{ 'type modali' }}</strong></div>
+                                <div><span>educationLevelTypeId</span><strong>{{ element['educationLevelTypeId']
+                                        }}</strong></div>
                             </div>
                             <div class="d-flex justify-content-center gap-2 mt-4">
                                 <div>
@@ -59,20 +67,24 @@ Nivel de ensino
                                 <div>
                                     <!-- MODAL UPDATE -->
                                     <button class="btn btn-warning" type="button" data-bs-toggle="modal"
-                                        data-bs-target="#ModalUpdate">Editar</button>
+                                        data-bs-target="#ModalUpdate" element-id="{{element['id']}}"
+                                        element-status="{{element['status']}}" element-name="{{element['name']}}"
+                                        element-externalId="{{element['externalId']}}"
+                                        element-educationLevelTypeId="{{element['educationLevelTypeId']}}">Editar</button>
                                     {% include "nivel_ensino/ModalUpdate.html" %}
                                     <!-- // MODAL UPDATE -->
                                 </div>
                                 <div>
                                     <!-- MODAL DE DELETAR -->
                                     <button class="btn btn-danger" type="button" data-bs-toggle="modal"
-                                        data-bs-target="#ModalDelete">Deletar</button>
+                                        data-bs-target="#ModalDelete" element-id="{{ element['id'] }}">Deletar</button>
                                     {% include "nivel_ensino/ModalDelete.html" %}
                                     <!-- // MODAL DE DELETAR -->
                                 </div>
                             </div>
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
             </div>
         </section>

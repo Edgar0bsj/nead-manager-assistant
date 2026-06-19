@@ -2,7 +2,8 @@
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form class="needs-validation" novalidate="">
+            <form action="{{url_for('nivel_ensino_delete')}}" method="post" class="needs-validation" novalidate="">
+                <input type="hidden" id="id_delete" name="id">
                 <div class="modal-header">
 
                     <h2 class="modal-title h5" id="formModalLabel">Deletar Nivel de Ensino</h2>
@@ -33,3 +34,21 @@
         </div>
     </div>
 </div>
+
+
+<script>
+
+    const MODAL_DELETE = document.getElementById('ModalDelete');
+
+    MODAL_DELETE.addEventListener('show.bs.modal', function (event) {
+
+        // Botão que abriu o modal
+        const button = event.relatedTarget;
+
+        // Recupera os atributos
+        let element_id = button.getAttribute('element-id');
+
+        document.getElementById("id_delete").value = element_id
+
+    });
+</script>

@@ -2,32 +2,39 @@
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form class="needs-validation" novalidate="">
+            <form action="{{url_for('nivel_ensino_create')}}" method="post" class="needs-validation" novalidate="">
                 <div class="modal-header">
-                    <h2 class="modal-title h5" id="formModalLabel">Add Nivel de Ensino</h2><button type="button"
-                        class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h2 class="modal-title h5">Add Nivel de Ensino</h2><button type="button" class="btn-close"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <!-- BODY -->
                     <div class="container text-center">
                         <div class="row justify-content-md-center mb-3">
+                            <div class="col-md-6"><label class="form-label">Status</label><select class="form-select"
+                                    name="status" required="">
+                                    <option value="">...</option>
+                                    <option value="true">Ativado</option>
+                                    <option value="false">Desativado</option>
+                                </select>
+                                <div class="invalid-feedback">Faz favor.</div>
+                            </div>
                             <div class="col-md-6">
                                 <label class="form-label">name</label>
-                                <input class="form-control" required="">
+                                <input class="form-control" required="" name="name">
                                 <div class="invalid-feedback">Faz favor.</div>
                             </div>
                         </div>
                         <div class="row justify-content-md-center mb-3">
                             <div class="col-md-6">
                                 <label class="form-label">externalId</label>
-                                <input class="form-control" required="">
+                                <input class="form-control" required="" name="externalId">
                                 <div class="invalid-feedback">Faz favor.</div>
                             </div>
                         </div>
                         <div class="row justify-content-md-center mb-3">
-                            <div class="col-md-6"><label class="form-label"
-                                    for="formPlan">educationLevelTypeId</label><select class="form-select" id="formPlan"
-                                    required="">
+                            <div class="col-md-6"><label class="form-label">educationLevelTypeId</label><select
+                                    class="form-select" name="educationLevelTypeId" required="">
                                     <option value="">...</option>
                                     <option value="graduate">graduate</option>
                                     <option value="undergraduate">undergraduate</option>
