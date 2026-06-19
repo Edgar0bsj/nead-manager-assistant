@@ -56,3 +56,27 @@ async def delete(request: Request, id: int = Form(...)):
         print(response.status_code)
 
     return RedirectResponse(url="http://127.0.0.1:8000/nivel-ensino/", status_code=303)
+
+
+@router.post("/update", name="nivel_ensino_update")
+async def update(
+    request: Request,
+    id: int = Form(...),
+    status: bool = Form(...),
+    name: str = Form(...),
+    externalId: str = Form(...),
+    educationLevelTypeId: str = Form(...),
+):
+    params = {}
+    params["status"] = status
+    params["name"] = name
+    params["externalId"] = externalId
+    params["educationLevelTypeId"] = educationLevelTypeId
+
+    url = f"http://127.0.0.1:8080/nivel-ensino/{id}"
+
+    async with httpx.AsyncClient() as client:
+        response = await client.put(url=url, json=params)
+        print(response.status_code)
+
+    return RedirectResponse(url="http://127.0.0.1:8000/nivel-ensino/", status_code=303)

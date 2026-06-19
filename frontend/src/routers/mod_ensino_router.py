@@ -89,7 +89,7 @@ async def update(
     url = f"http://127.0.0.1:8080/mods-ensino/{id}"
 
     async with httpx.AsyncClient() as client:
-        response = await client.post(url=url, json=params)
+        response = await client.put(url=url, json=params)
 
     msg_response = None
     if response.status_code == 201:
