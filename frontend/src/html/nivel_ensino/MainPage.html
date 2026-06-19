@@ -1,0 +1,81 @@
+{% extends "base/base.html" %}
+{% block title %}
+Nivel de ensino
+{% endblock %}
+{% block content %}
+<main class="dashboard-content">
+    <div class="container-fluid px-3 px-lg-4 py-4">
+        <div class="page-heading">
+            <div class="page-heading-copy">
+                <span class="page-icon"><i class="bi bi-folder-fill" aria-hidden="true"></i></span>
+                <div>
+                    <p class="eyebrow mb-1">AVAUNI</p>
+                    <h1 class="h3 mb-1">Nivel de Ensino</h1>
+                </div>
+            </div>
+
+            <div class="heading-actions">
+                <!-- Download CSV -->
+                <a class="btn btn-outline-secondary btn-sm" type="button"><i class="bi bi-download"
+                        aria-hidden="true"></i>Export</a>
+                <!-- // Download CSV -->
+
+                <!-- MODAL CREATE -->
+                <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal"
+                    data-bs-target="#ModalCreate">
+                    <i class="bi bi-file-earmark-plus" aria-hidden="true"></i>
+                    Add Modalidade de Ensino
+                </button>
+                {% include "nivel_ensino/ModalCreate.html" %}
+                <!-- //MODAL CREATE -->
+            </div>
+
+        </div>
+
+        <section class="panel blank-panel">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="panel h-100 text-center profile-card">
+                            <!-- name -->
+                            <h2 class="h5 mt-3 mb-4">{{ 'Name' }}</h2>
+                            <div class="d-flex justify-content-center gap-2">
+                                <span class="badge text-bg-primary">Ativo</span>
+                            </div>
+                            <div class="info-list mt-4 text-start">
+                                <!-- externalId -->
+                                <div><span>externalId</span><strong>{{ 'Codigo Externo' }}</strong></div>
+                                <!-- educationLevelTypeId -->
+                                <div><span>educationLevelTypeId</span><strong>{{ 'type modali' }}</strong></div>
+                            </div>
+                            <div class="d-flex justify-content-center gap-2 mt-4">
+                                <div>
+                                    <!-- MODAL DETALHES -->
+                                    <button class="btn btn-primary" type="button" data-bs-toggle="modal"
+                                        data-bs-target="#ModalDetails">Detalhes</button>
+                                    {% include "nivel_ensino/ModalDetails.html" %}
+                                    <!-- // MODAL DETALHES -->
+                                </div>
+                                <div>
+                                    <!-- MODAL UPDATE -->
+                                    <button class="btn btn-warning" type="button" data-bs-toggle="modal"
+                                        data-bs-target="#ModalUpdate">Editar</button>
+                                    {% include "nivel_ensino/ModalUpdate.html" %}
+                                    <!-- // MODAL UPDATE -->
+                                </div>
+                                <div>
+                                    <!-- MODAL DE DELETAR -->
+                                    <button class="btn btn-danger" type="button" data-bs-toggle="modal"
+                                        data-bs-target="#ModalDelete">Deletar</button>
+                                    {% include "nivel_ensino/ModalDelete.html" %}
+                                    <!-- // MODAL DE DELETAR -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+{% endblock %}
