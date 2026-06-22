@@ -82,27 +82,25 @@
       });
     }
 
-    function initTableSearch() {
-      var searchInputs = document.querySelectorAll("[data-table-search]");
+function initTableSearch() {
+  document.querySelectorAll("[data-table-search]").forEach(input => {
+    const table = document.getElementById(
+      input.dataset.tableSearch
+    );
 
-      Array.prototype.forEach.call(searchInputs, function (input) {
-        var tableId = input.getAttribute("data-table-search");
-        var table = document.getElementById(tableId);
+    if (!table) return;
 
-        if (!table) {
-          return;
-        }
+    input.addEventListener("input", () => {
+      const query = input.value.trim().toLowerCase();
 
-        input.addEventListener("input", function () {
-          var query = input.value.trim().toLowerCase();
-          var rows = table.querySelectorAll("tbody tr");
-
-          Array.prototype.forEach.call(rows, function (row) {
-            row.hidden = query !== "" && row.textContent.toLowerCase().indexOf(query) === -1;
-          });
-        });
+      table.querySelectorAll("tbody tr").forEach(row => {
+        row.hidden =
+          query &&
+          !row.textContent.toLowerCase().includes(query);
       });
-    }
+    });
+  });
+}
 
     function updateThemeControls(theme) {
       var nextTheme = theme === "dark" ? "light" : "dark";
