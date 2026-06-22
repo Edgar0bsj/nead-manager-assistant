@@ -91,14 +91,27 @@ Cursos
                                         <div class="col-md-6">
                                             <!-- DELETE -->
                                             <button class="btn btn-light btn-sm" type="button" data-bs-toggle="modal"
-                                                data-bs-target="#ModalDelete">Deletar</button>
+                                                data-bs-target="#ModalDelete"
+                                                data-id="{{element['id']}}">Deletar</button>
                                             {% include "cursos/ModalDelete.html" %}
                                             <!-- // DELETE -->
                                         </div>
                                     </div>
                                     <div class="row justify-content-md-center align-items-center">
                                         <div class="col-md-6">
-                                            <button class="btn btn-light btn-sm" type="button">Detalhes</button>
+                                            <!-- DETAILS -->
+                                            <button data-mod-status="{{element['modalidade_ensino']['status']}}"
+                                                data-mod-name="{{element['modalidade_ensino']['name']}}"
+                                                data-mod-externalId="{{element['modalidade_ensino']['externalId']}}"
+                                                data-mod-teachingModalityTypeId="{{element['modalidade_ensino']['teachingModalityTypeId']}}"
+                                                data-nl-status="{{element['nivel_ensino']['status']}}"
+                                                data-nl-name="{{element['nivel_ensino']['name']}}"
+                                                data-nl-externalId="{{element['nivel_ensino']['externalId']}}"
+                                                data-nl-educationLevelTypeId="{{element['nivel_ensino']['educationLevelTypeId']}}"
+                                                data-bs-toggle="modal" data-bs-target="#ModalDetails"
+                                                class="btn btn-light btn-sm" type="button">Detalhes</button>
+                                            {% include "cursos/ModalDetails.html" %}
+                                            <!-- // DETAILS -->
                                         </div>
                                     </div>
                                 </div>

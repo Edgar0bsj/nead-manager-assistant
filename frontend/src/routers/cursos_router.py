@@ -10,55 +10,16 @@ router = APIRouter(prefix="/cursos")
 @router.get("/", name="cursos_main")
 async def find_all(request: Request):
 
-    # url = "http://127.0.0.1:8080/nivel-ensino/"
+    url = "http://127.0.0.1:8080/cursos/"
 
-    # async with httpx.AsyncClient() as client:
-    #     response = await client.get(url=url)
-    #     elements = response.json()
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url=url)
+        elements = response.json()
 
     return templates.TemplateResponse(
         request=request,
         name="cursos/MainPage.html",
-        context={
-            "data": [
-                {
-                    "id": 1,
-                    "name": "BIOMEDICINA (Semipresencial)",
-                    "externalId": "418",
-                    "isActive": False,
-                    "externalTeachingModalityId": "5",
-                    "externalEducationLevelId": "1",
-                    "courseTypeId": "technologist",
-                },
-                {
-                    "id": 2,
-                    "name": "BIOMEDICINA (Semipresencial)",
-                    "externalId": "418",
-                    "isActive": True,
-                    "externalTeachingModalityId": "5",
-                    "externalEducationLevelId": "1",
-                    "courseTypeId": "technologist",
-                },
-                {
-                    "id": 3,
-                    "name": "BIOMEDICINA (Semipresencial)",
-                    "externalId": "418",
-                    "isActive": True,
-                    "externalTeachingModalityId": "5",
-                    "externalEducationLevelId": "1",
-                    "courseTypeId": "technologist",
-                },
-                {
-                    "id": 4,
-                    "name": "BIOMEDICINA (Semipresencial)",
-                    "externalId": "418",
-                    "isActive": True,
-                    "externalTeachingModalityId": "5",
-                    "externalEducationLevelId": "1",
-                    "courseTypeId": "technologist",
-                },
-            ]
-        },
+        context={"data": elements},
     )
 
 
@@ -73,26 +34,28 @@ async def create(
     courseTypeId: str = Form(...),
 ):
 
-    print("////// CREATE ///////")
-    print(name)
-    print(externalId)
-    print(isActive)
-    print(externalTeachingModalityId)
-    print(externalEducationLevelId)
-    print(courseTypeId)
+    params = {
+        "name": name,
+        "externalId": externalId,
+        "isActive": isActive,
+        "externalTeachingModalityId": externalTeachingModalityId,
+        "externalEducationLevelId": externalEducationLevelId,
+        "courseTypeId": courseTypeId,
+    }
 
-    # url = "http://127.0.0.1:8080/nivel-ensino/"
+    url = "http://127.0.0.1:8080/cursos/"
 
-    # async with httpx.AsyncClient() as client:
-    #     response = await client.get(url=url)
-    #     elements = response.json()
+    async with httpx.AsyncClient() as client:
+        response = await client.post(url=url, json=params)
+        print(response.status_code)
 
     return RedirectResponse(url="http://127.0.0.1:8000/cursos/", status_code=303)
 
 
-@router.post("/", name="cursos_delete")
+@router.post("/update", name="cursos_update")
 async def update(
     request: Request,
+    id: int = Form(...),
     name: str = Form(...),
     externalId: str = Form(...),
     isActive: bool = Form(...),
@@ -101,30 +64,34 @@ async def update(
     courseTypeId: str = Form(...),
 ):
 
-    print("////// UPDATE ///////")
-    print(name)
-    print(externalId)
-    print(isActive)
-    print(externalTeachingModalityId)
-    print(externalEducationLevelId)
-    print(courseTypeId)
+    params = {
+        "name": name,
+        "externalId": externalId,
+        "isActive": isActive,
+        "externalTeachingModalityId": externalTeachingModalityId,
+        "externalEducationLevelId": externalEducationLevelId,
+        "courseTypeId": courseTypeId,
+    }
 
-    # url = "http://127.0.0.1:8080/nivel-ensino/"
+    url = f"http://127.0.0.1:8080/cursos/{id}"
 
-    # async with httpx.AsyncClient() as client:
-    #     response = await client.get(url=url)
-    #     elements = response.json()
+    async with httpx.AsyncClient() as client:
+        response = await client.put(url=url, json=params)
+        print(response.status_code)
 
     return RedirectResponse(url="http://127.0.0.1:8000/cursos/", status_code=303)
 
 
 @router.post("/delete", name="cursos_delete")
-async def delete(request: Request):
+async def delete(
+    request: Request,
+    id: int = Form(...),
+):
 
-    # url = "http://127.0.0.1:8080/nivel-ensino/"
+    url = f"http://127.0.0.1:8080/cursos/{id}"
 
-    # async with httpx.AsyncClient() as client:
-    #     response = await client.get(url=url)
-    #     elements = response.json()
+    async with httpx.AsyncClient() as client:
+        response = await client.delete(url=url)
+        print(response.status_code)
 
     return RedirectResponse(url="http://127.0.0.1:8000/cursos/", status_code=303)

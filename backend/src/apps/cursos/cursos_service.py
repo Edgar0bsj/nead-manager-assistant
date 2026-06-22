@@ -21,7 +21,6 @@ class CursosService:
         )
 
     def to_dtoOutput(self, entity: CursosModel):
-        print(entity.nivel_ensino)
         if entity.nivel_ensino and entity.modalidade_ensino:
             return CursosOutput(
                 id=entity.id,
@@ -46,6 +45,41 @@ class CursosService:
                     "educationLevelTypeId": entity.nivel_ensino.educationLevelTypeId,
                 },
             )
+        if entity.nivel_ensino and (not entity.modalidade_ensino):
+            return CursosOutput(
+                id=entity.id,
+                name=entity.name,
+                externalId=entity.externalId,
+                isActive=entity.isActive,
+                externalTeachingModalityId=entity.externalTeachingModalityId,
+                externalEducationLevelId=entity.externalEducationLevelId,
+                courseTypeId=entity.courseTypeId,
+                nivel_ensino={
+                    "id": entity.nivel_ensino.id,
+                    "status": entity.nivel_ensino.status,
+                    "name": entity.nivel_ensino.name,
+                    "externalId": entity.nivel_ensino.externalId,
+                    "educationLevelTypeId": entity.nivel_ensino.educationLevelTypeId,
+                },
+            )
+        if (not entity.nivel_ensino) and entity.modalidade_ensino:
+            return CursosOutput(
+                id=entity.id,
+                name=entity.name,
+                externalId=entity.externalId,
+                isActive=entity.isActive,
+                externalTeachingModalityId=entity.externalTeachingModalityId,
+                externalEducationLevelId=entity.externalEducationLevelId,
+                courseTypeId=entity.courseTypeId,
+                modalidade_ensino={
+                    "id": entity.modalidade_ensino.id,
+                    "status": entity.modalidade_ensino.status,
+                    "name": entity.modalidade_ensino.name,
+                    "externalId": entity.modalidade_ensino.externalId,
+                    "teachingModalityTypeId": entity.modalidade_ensino.teachingModalityTypeId,
+                },
+            )
+
         return CursosOutput(
             id=entity.id,
             name=entity.name,
@@ -77,13 +111,13 @@ class CursosService:
         df = pd.DataFrame(entity_dict)
 
         df = df.drop(columns=["id"])
-        print(df.to_markdown(index=False))
-        # df.to_csv(
-        #     output,
-        #     index=False,
-        #     sep=";",
-        #     encoding="utf-8",
-        # )
-        # output.seek(0)
+        # print(df.to_markdown(index=False))
+        df.to_csv(
+            output,
+            index=False,
+            sep=";",
+            encoding="utf-8",
+        )
+        output.seek(0)
 
         return output

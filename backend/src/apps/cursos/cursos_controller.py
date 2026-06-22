@@ -75,13 +75,13 @@ class CursosController:
             all_cursos = self.repository.find_all()
             result_output = self.service.output_csv(all_cursos)
 
-            return {"msg": ";D"}
-            # return StreamingResponse(
-            #     result_output,
-            #     media_type="text/csv",
-            #     headers={
-            #         "Content-Disposition": "attachment; filename=education-level.unig_producao.csv"
-            #     },
-            # )
+            # return {"msg": ";D"}
+            return StreamingResponse(
+                result_output,
+                media_type="text/csv",
+                headers={
+                    "Content-Disposition": "attachment; filename=course.unig_producao.csv"
+                },
+            )
         except Exception as err:
             print(err)
