@@ -3,6 +3,9 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from src.database.base import Base
 from src.database.timestamp_mixin import TimestampMixin
 
+# Relacionamento_______________
+# from src.apps.cursos.cursos_model import CursosModel
+
 
 class NivelEnsinoModel(TimestampMixin, Base):
     __tablename__ = "nivel_ensino"
@@ -16,3 +19,5 @@ class NivelEnsinoModel(TimestampMixin, Base):
     externalId: Mapped[str] = mapped_column(String(100), unique=True)
 
     educationLevelTypeId: Mapped[str] = mapped_column(String(100))
+
+    cursos: Mapped[list["CursosModel"]] = relationship(back_populates="nivel_ensino")  # type: ignore
