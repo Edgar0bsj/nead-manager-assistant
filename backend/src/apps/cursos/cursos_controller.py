@@ -3,7 +3,7 @@ from sqlalchemy.exc import IntegrityError
 from typing import Optional
 
 from src.err.exceptios import EntityNotFoundException
-from fastapi import HTTPException
+from fastapi import HTTPException, UploadFile
 from src.apps.cursos.cursos_repository import CursosRepository
 from src.apps.cursos.cursos_service import CursosService
 from src.apps.cursos.cursos_dto import CursosInput, CursosOutput
@@ -75,7 +75,6 @@ class CursosController:
             all_cursos = self.repository.find_all()
             result_output = self.service.output_csv(all_cursos)
 
-            # return {"msg": ";D"}
             return StreamingResponse(
                 result_output,
                 media_type="text/csv",
@@ -85,3 +84,7 @@ class CursosController:
             )
         except Exception as err:
             print(err)
+
+    async def process_file(self, file: UploadFile):
+
+        return {"msg": "EM DESENVOLVIMENTO"}

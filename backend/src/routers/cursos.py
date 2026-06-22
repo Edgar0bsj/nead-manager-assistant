@@ -1,5 +1,5 @@
 from typing import Optional
-from fastapi import APIRouter, Depends, status, Path
+from fastapi import APIRouter, Depends, UploadFile, status, Path, File
 from src.apps.cursos.cursos_dto import CursosOutput, CursosInput
 from src.apps.cursos.cursos_controller import CursosController
 
@@ -71,3 +71,12 @@ def delete(
     controller: CursosController = Depends(get_depends),
 ):
     return controller.delete(id)
+
+
+@router.post("/upload-csv")
+async def upload_csv(
+    file: UploadFile = File(...), controller: CursosController = Depends(get_depends)
+):
+    result = await controller.process_file(file)
+
+    return result
