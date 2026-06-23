@@ -82,9 +82,7 @@ Cursos
                                                 data-courseTypeId="{{element['courseTypeId']}}"
                                                 class="btn btn-light btn-sm" type="button" data-bs-toggle="modal"
                                                 data-bs-target="#ModalUpdate">Editar</button>
-                                            {% include "cursos/ModalUpdate.html" %}
                                             <!-- // UPDATE -->
-
                                         </div>
                                     </div>
                                     <div class="row justify-content-md-center align-items-center mb-2">
@@ -93,7 +91,6 @@ Cursos
                                             <button class="btn btn-light btn-sm" type="button" data-bs-toggle="modal"
                                                 data-bs-target="#ModalDelete"
                                                 data-id="{{element['id']}}">Deletar</button>
-                                            {% include "cursos/ModalDelete.html" %}
                                             <!-- // DELETE -->
                                         </div>
                                     </div>
@@ -110,7 +107,6 @@ Cursos
                                                 data-nl-educationLevelTypeId="{{element['nivel_ensino']['educationLevelTypeId']}}"
                                                 data-bs-toggle="modal" data-bs-target="#ModalDetails"
                                                 class="btn btn-light btn-sm" type="button">Detalhes</button>
-                                            {% include "cursos/ModalDetails.html" %}
                                             <!-- // DETAILS -->
                                         </div>
                                     </div>
@@ -118,6 +114,11 @@ Cursos
                             </td>
                         </tr>
                         {% endfor %}
+                        <!-- MODAL -->
+                        {% include "cursos/ModalUpdate.html" %}
+                        {% include "cursos/ModalDetails.html" %}
+                        {% include "cursos/ModalDelete.html" %}
+
                         <!-- //// -->
                     </tbody>
                 </table>
