@@ -20,4 +20,4 @@ class NivelEnsinoModel(TimestampMixin, Base):
 
     educationLevelTypeId: Mapped[str] = mapped_column(String(100))
 
-    cursos: Mapped[list["CursosModel"]] = relationship(back_populates="nivel_ensino")  # type: ignore
+    cursos: Mapped[list["CursosModel"]] = relationship(back_populates="nivel_ensino", lazy="selectin")  # type: ignore

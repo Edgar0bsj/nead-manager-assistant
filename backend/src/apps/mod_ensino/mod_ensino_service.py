@@ -17,13 +17,36 @@ class ModEnsinoService:
         )
 
     def to_dtoOutput(self, entity: ModEnsinoModel):
-        return ModEnsinoOutput(
-            id=entity.id,
-            status=entity.status,
-            name=entity.name,
-            externalId=entity.externalId,
-            teachingModalityTypeId=entity.teachingModalityTypeId,
-        )
+
+        data = {
+            "id": entity.id,
+            "status": entity.status,
+            "name": entity.name,
+            "externalId": entity.externalId,
+            "teachingModalityTypeId": entity.teachingModalityTypeId,
+        }
+
+        if entity.cursos:
+            data["cursos"] = []
+
+            for i in range(len(entity.cursos)):
+                data["cursos"].append(
+                    {
+                        "id": entity.cursos[i].id,
+                        "name": entity.cursos[i].name,
+                        "externalId": entity.cursos[i].externalId,
+                        "isActive": entity.cursos[i].isActive,
+                        "externalTeachingModalityId": entity.cursos[
+                            i
+                        ].externalTeachingModalityId,
+                        "externalEducationLevelId": entity.cursos[
+                            i
+                        ].externalEducationLevelId,
+                        "courseTypeId": entity.cursos[i].courseTypeId,
+                    }
+                )
+
+        return ModEnsinoOutput(**data)
 
     def to_dict(self, entity_model: ModEnsinoModel) -> dict[str, Any]:
         return {

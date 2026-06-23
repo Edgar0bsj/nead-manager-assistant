@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 
 
 class ModEnsinoInput(BaseModel):
@@ -14,3 +15,5 @@ class ModEnsinoOutput(BaseModel):
     name: str
     externalId: str
     teachingModalityTypeId: str
+
+    cursos: Optional[list] = None

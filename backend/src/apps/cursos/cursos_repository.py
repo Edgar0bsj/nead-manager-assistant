@@ -47,6 +47,7 @@ class CursosRepository:
         newEntity.externalTeachingModalityId = entity_model.externalTeachingModalityId
         newEntity.externalEducationLevelId = entity_model.externalEducationLevelId
         newEntity.courseTypeId = entity_model.courseTypeId
+        newEntity.polo_id = entity_model.polo_id
 
         self.session.commit()
         return newEntity

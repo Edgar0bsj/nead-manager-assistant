@@ -21,5 +21,5 @@ class ModEnsinoModel(TimestampMixin, Base):
     teachingModalityTypeId: Mapped[str] = mapped_column(String(100))
 
     cursos: Mapped[list["CursosModel"]] = relationship(  # type: ignore
-        back_populates="modalidade_ensino"
+        back_populates="modalidade_ensino", lazy="selectin"
     )

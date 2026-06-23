@@ -6,6 +6,7 @@ from src.database.timestamp_mixin import TimestampMixin
 # Relacionamento _______________
 from src.apps.mod_ensino.mod_ensino_model import ModEnsinoModel
 from src.apps.nivel_ensino.nivel_ensino_model import NivelEnsinoModel
+from src.apps.polos.polos_model import PoloModel
 
 
 class CursosModel(TimestampMixin, Base):
@@ -19,6 +20,8 @@ class CursosModel(TimestampMixin, Base):
 
     isActive: Mapped[bool] = mapped_column(Boolean)
 
+    courseTypeId: Mapped[str] = mapped_column(String(20))
+
     externalTeachingModalityId: Mapped[str] = mapped_column(
         ForeignKey("modalidades_ensino.externalId")
     )
@@ -27,7 +30,7 @@ class CursosModel(TimestampMixin, Base):
         ForeignKey("nivel_ensino.externalId")
     )
 
-    courseTypeId: Mapped[str] = mapped_column(String(20))
+    polo_id: Mapped[int] = mapped_column(ForeignKey("polos.id"))
 
     modalidade_ensino: Mapped["ModEnsinoModel"] = relationship(
         back_populates="cursos", lazy="selectin"
@@ -35,3 +38,4 @@ class CursosModel(TimestampMixin, Base):
     nivel_ensino: Mapped["NivelEnsinoModel"] = relationship(
         back_populates="cursos", lazy="selectin"
     )
+    polo: Mapped["PoloModel"] = relationship(back_populates="cursos", lazy="selectin")

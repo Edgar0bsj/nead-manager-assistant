@@ -17,13 +17,35 @@ class NivelEnsinoService:
         )
 
     def to_dtoOutput(self, entity: NivelEnsinoModel):
-        return NivelEnsinoOutput(
-            id=entity.id,
-            status=entity.status,
-            name=entity.name,
-            externalId=entity.externalId,
-            educationLevelTypeId=entity.educationLevelTypeId,
-        )
+
+        data = {
+            "id": entity.id,
+            "status": entity.status,
+            "name": entity.name,
+            "externalId": entity.externalId,
+            "educationLevelTypeId": entity.educationLevelTypeId,
+        }
+
+        if entity.cursos:
+            data["cursos"] = []
+            for i in range(len(entity.cursos)):
+                data["cursos"].append(
+                    {
+                        "id": entity.cursos[i].id,
+                        "name": entity.cursos[i].name,
+                        "externalId": entity.cursos[i].externalId,
+                        "isActive": entity.cursos[i].isActive,
+                        "externalTeachingModalityId": entity.cursos[
+                            i
+                        ].externalTeachingModalityId,
+                        "externalEducationLevelId": entity.cursos[
+                            i
+                        ].externalEducationLevelId,
+                        "courseTypeId": entity.cursos[i].courseTypeId,
+                    }
+                )
+
+        return NivelEnsinoOutput(**data)
 
     def to_dict(self, entity_model: NivelEnsinoModel) -> dict[str, Any]:
         return {
