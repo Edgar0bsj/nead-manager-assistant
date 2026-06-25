@@ -1,6 +1,9 @@
-from src.apps.polos.polos_model import PoloModel
-from src.apps.polos.polos_dto import PoloInput, PoloOutput
+# Dependency
 from typing import Any
+
+# Packages
+from .polos_model import PoloModel
+from .polos_dto import PoloInput, PoloOutput
 
 
 class PoloService:

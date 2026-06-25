@@ -1,7 +1,9 @@
-from sqlalchemy import Boolean, String, Integer
+# Dependency
+from sqlalchemy import String, Integer
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from src.database.base import Base
-from src.database.timestamp_mixin import TimestampMixin
+
+# Packages
+from src.database import TimestampMixin, Base
 
 
 class PoloModel(TimestampMixin, Base):

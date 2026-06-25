@@ -1,7 +1,10 @@
+# Dependency
 from fastapi import APIRouter, Depends, status, Path
 
-from src.apps.polos.polos_controller import PoloController
-from src.apps.polos.polos_dto import PoloOutput, PoloInput
+# Packages
+from src.apps.polos import PoloController, PoloOutput, PoloInput
+
+# //--
 
 router = APIRouter(prefix="/polo")
 

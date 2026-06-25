@@ -1,5 +1,5 @@
+# Dependency
 from typing import Optional
-
 from pydantic import BaseModel
 
 
@@ -11,5 +11,5 @@ class PoloOutput(BaseModel):
     id: int
     name: str
 
-    # Campos relacionados
+    # Campo relacionado
     cursos: Optional[list] = None

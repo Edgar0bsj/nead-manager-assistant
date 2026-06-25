@@ -1,7 +1,11 @@
-from typing import Optional
+# Dependency
 from fastapi import APIRouter, Depends, UploadFile, status, Path, File
-from src.apps.cursos.cursos_dto import CursosOutput, CursosInput
-from src.apps.cursos.cursos_controller import CursosController
+
+# Packages
+from src.apps.cursos import CursosOutput, CursosInput
+from src.apps.cursos import CursosController
+
+# //--
 
 router = APIRouter(prefix="/cursos")
 
@@ -23,7 +27,7 @@ def create(
 
 
 @router.get("/export-csv", status_code=status.HTTP_200_OK)
-def save_to_csv(
+async def save_to_csv(
     controller: CursosController = Depends(get_depends),
 ):
     return controller.export_csv()
@@ -73,10 +77,10 @@ def delete(
     return controller.delete(id)
 
 
-@router.post("/upload-csv")
-async def upload_csv(
+@router.post("/upload-xlsx", status_code=status.HTTP_200_OK)
+async def upload_xlsx(
     file: UploadFile = File(...), controller: CursosController = Depends(get_depends)
 ):
-    result = await controller.process_file(file)
+    result = await controller.process_file_xlsx(file)
 
     return result

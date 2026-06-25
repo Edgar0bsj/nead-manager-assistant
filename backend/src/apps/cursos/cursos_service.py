@@ -1,12 +1,20 @@
-from io import StringIO
-
-from src.err.exceptios import EntityNotFoundException
-
-from src.apps.cursos.cursos_model import CursosModel
-from src.apps.cursos.cursos_dto import CursosInput, CursosOutput
-
-from typing import Any
+# Dependency
 import pandas as pd
+from io import StringIO, BytesIO
+from fastapi import UploadFile
+from typing import Any
+
+# Packages
+from .cursos_model import CursosModel
+from .cursos_dto import CursosInput, CursosOutput
+from .util.df_format import (
+    normalize_text,
+    set_courseTypeId,
+    set_externalId,
+)
+
+# Exceptions
+from src.exceptions import EntityNotFoundException
 
 
 class CursosService:
@@ -71,8 +79,9 @@ class CursosService:
         }
 
     def output_csv(self, all_entity: list[CursosModel]):
+
         if len(all_entity) <= 0:
-            raise EntityNotFoundException()
+            raise EntityNotFoundException("Nenhum registro encontrado")
 
         output = StringIO()
 
@@ -80,6 +89,7 @@ class CursosService:
         df = pd.DataFrame(entity_dict)
 
         df = df.drop(columns=["id"])
+        df = df.drop(columns=["polo_id"])
         # print(df.to_markdown(index=False))
         df.to_csv(
             output,
@@ -90,3 +100,125 @@ class CursosService:
         output.seek(0)
 
         return output
+
+    async def xlsx_to_dataframe(self, file: UploadFile) -> pd.DataFrame:
+
+        if not file.filename.endswith(".xlsx"):
+            raise ValueError("O arquivo deve ser .xlsx")
+
+        content = await file.read()
+
+        df = pd.read_excel(
+            BytesIO(content),
+            engine="openpyxl",
+            usecols=["POLO", "CURSO", "MODALIDADE", "externalEducationLevelId"],
+        )
+
+        return df
+
+    async def df_remover_cursos_duplicados(self, df: pd.DataFrame):
+        df_unique = df.drop_duplicates(subset=["CURSO"])
+        return df_unique
+
+    def prepare_dataframe(self, df: pd.DataFrame):
+        df["name"] = df["CURSO"].apply(normalize_text)
+        df["externalId"] = df["CURSO"].apply(set_externalId)
+        df["isActive"] = True
+        df["courseTypeId"] = df["externalId"].apply(set_courseTypeId)
+        df["externalTeachingModalityId"] = df["MODALIDADE"]
+        df = df.drop(columns=["CURSO"])
+        df = df.rename(
+            columns={"POLO": "polo_id", "MODALIDADE": "externalTeachingModalityId"}
+        )
+        df = df[
+            [
+                "name",
+                "externalId",
+                "isActive",
+                "courseTypeId",
+                "externalTeachingModalityId",
+                "externalEducationLevelId",
+                "polo_id",
+            ]
+        ]
+
+        df["courseTypeId"] = df["courseTypeId"].astype(str)
+        df["externalTeachingModalityId"] = df["externalTeachingModalityId"].astype(str)
+        df["externalEducationLevelId"] = df["externalEducationLevelId"].astype(str)
+
+        return df
+
+    async def verify_persistence(
+        self, entity: list, instance_controller: "CursosController"  # type: ignore
+    ) -> list | None:
+
+        found: list = []
+        not_found: list = []
+
+        for e in entity:
+            try:
+                is_exists = instance_controller.repository.find(
+                    _externalId=e["externalId"]
+                )
+
+                found.append(is_exists)
+
+            except:
+                not_found.append(e)
+
+        return [found, not_found]
+
+    # from src.apps.cursos.cursos_controller import CursosController
+    async def persist(
+        self,
+        entity: list,
+        instance_controller: "CursosController",  # type: ignore
+        update: bool = False,
+    ):
+
+        sucess: list = []
+        erros: list = []
+
+        if update is True:
+            for e in entity:
+                result = instance_controller.repository.edit(e.id, e)
+
+                if result:
+                    curso = {}
+                    curso["id"] = result.id
+                    curso["name"] = result.name
+                    curso["externalId"] = result.externalId
+                    curso["isActive"] = result.isActive
+                    curso["courseTypeId"] = result.courseTypeId
+                    curso["externalTeachingModalityId"] = (
+                        result.externalTeachingModalityId
+                    )
+                    curso["externalEducationLevelId"] = result.externalEducationLevelId
+                    curso["polo_id"] = result.polo_id
+
+                    sucess.append(curso)
+                else:
+                    erros.append(e)
+
+            return [sucess, erros]
+
+        for e in entity:
+
+            cursos_input = CursosInput(**e)
+            result = instance_controller.create(cursos_input)
+
+            if result:
+                curso = {}
+                curso["id"] = result.id
+                curso["name"] = result.name
+                curso["externalId"] = result.externalId
+                curso["isActive"] = result.isActive
+                curso["courseTypeId"] = result.courseTypeId
+                curso["externalTeachingModalityId"] = result.externalTeachingModalityId
+                curso["externalEducationLevelId"] = result.externalEducationLevelId
+                curso["polo_id"] = result.polo_id
+                sucess.append(curso)
+            else:
+                erros.append(e)
+
+        return [sucess, erros]

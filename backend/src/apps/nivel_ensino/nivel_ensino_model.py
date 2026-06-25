@@ -1,9 +1,11 @@
+# Dependency
 from sqlalchemy import Boolean, String, Integer
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from src.database.base import Base
-from src.database.timestamp_mixin import TimestampMixin
 
-# Relacionamento_______________
+# Packages
+from src.database import Base, TimestampMixin
+
+# Relationship
 # from src.apps.cursos.cursos_model import CursosModel
 
 

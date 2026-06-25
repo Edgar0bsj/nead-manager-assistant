@@ -1,10 +1,14 @@
-from io import StringIO
-
-from src.err.exceptios import EntityNotFoundException
-from src.apps.nivel_ensino.nivel_ensino_model import NivelEnsinoModel
-from src.apps.nivel_ensino.nivel_ensino_dto import NivelEnsinoInput, NivelEnsinoOutput
-from typing import Any
+# Dependency
 import pandas as pd
+from io import StringIO
+from typing import Any
+
+# Packages
+from .nivel_ensino_model import NivelEnsinoModel
+from .nivel_ensino_dto import NivelEnsinoInput, NivelEnsinoOutput
+
+# Exceptions
+from src.exceptions import EntityNotFoundException
 
 
 class NivelEnsinoService:
@@ -58,7 +62,7 @@ class NivelEnsinoService:
 
     def output_csv(self, all_entity: list[NivelEnsinoModel]):
         if len(all_entity) <= 0:
-            raise EntityNotFoundException()
+            raise EntityNotFoundException("Nenhum registro encontrado!")
 
         output = StringIO()
 

@@ -1,10 +1,14 @@
-from io import StringIO
-
-from src.err.exceptios import EntityNotFoundException
-from src.apps.mod_ensino.mod_ensino_model import ModEnsinoModel
-from src.apps.mod_ensino.mod_ensino_dto import ModEnsinoInput, ModEnsinoOutput
-from typing import Any
+# Dependency
 import pandas as pd
+from io import StringIO
+from typing import Any
+
+# Packages
+from .mod_ensino_model import ModEnsinoModel
+from .mod_ensino_dto import ModEnsinoInput, ModEnsinoOutput
+
+# Exceptions
+from src.exceptions import EntityNotFoundException
 
 
 class ModEnsinoService:
@@ -59,7 +63,7 @@ class ModEnsinoService:
 
     def output_csv(self, all_entity: list[ModEnsinoModel]):
         if len(all_entity) <= 0:
-            raise EntityNotFoundException()
+            raise EntityNotFoundException("Nenhum registro encontrado!")
 
         output = StringIO()
 

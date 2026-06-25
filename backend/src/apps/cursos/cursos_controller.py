@@ -1,13 +1,14 @@
+# Dependency
 from fastapi.responses import StreamingResponse
-from sqlalchemy.exc import IntegrityError
-from typing import Optional
-
-from src.err.exceptios import EntityNotFoundException
 from fastapi import HTTPException, UploadFile
-from src.apps.cursos.cursos_repository import CursosRepository
-from src.apps.cursos.cursos_service import CursosService
-from src.apps.cursos.cursos_dto import CursosInput, CursosOutput
-import pandas as pd
+
+# Packages
+from . import CursosRepository
+from . import CursosService
+from . import CursosInput, CursosOutput
+
+# Exceptions
+from sqlalchemy.exc import IntegrityError
 
 
 class CursosController:
@@ -17,74 +18,66 @@ class CursosController:
 
     def create(self, input: CursosInput) -> CursosOutput:
 
-        try:
-            curso = self.service.to_entity(input)
-            response = self.repository.save(curso)
-            response = self.service.to_dtoOutput(response)
-            return response
-
-        except IntegrityError as err:
-            raise HTTPException(status_code=409, detail=str(err))
-        except Exception as err:
-            print(type(err))
-            print(f"ERRO INESPERADO >> {err}")
+        curso = self.service.to_entity(input)
+        response = self.repository.save(curso)
+        response = self.service.to_dtoOutput(response)
+        return response
 
     def read_all(self) -> list[CursosOutput]:
-        try:
-            cursos_all = self.repository.find_all()
-            response = [self.service.to_dtoOutput(x) for x in cursos_all]
-            return response
-        except Exception as err:
-            print(type(err))
-            print(f"ERRO INESPERADO >> {err}")
+
+        cursos_all = self.repository.find_all()
+        response = [self.service.to_dtoOutput(x) for x in cursos_all]
+        return response
 
     def update(self, id: int, input: CursosInput) -> CursosOutput:
-        try:
-            cursos_all = self.service.to_entity(input)
-            response = self.repository.edit(id, cursos_all)
-            response = self.service.to_dtoOutput(response)
-            return response
 
-        except IntegrityError as err:
-            raise HTTPException(status_code=409, detail=str(err))
-        except Exception as err:
-            print(type(err))
-            print(f"ERRO INESPERADO >> {err}")
+        cursos_all = self.service.to_entity(input)
+        response = self.repository.edit(id, cursos_all)
+        response = self.service.to_dtoOutput(response)
+        return response
 
     def delete(self, id: int) -> None:
-        try:
-            self.repository.remove(id)
-            return None
-        except Exception as err:
-            print(type(err))
-            print(f"ERRO INESPERADO >> {err}")
+
+        self.repository.remove(id)
+        return None
 
     def read_one(self, id: int):
-        try:
-            entity = self.repository.find(id)
-            response = self.service.to_dtoOutput(entity)
-            return response
-        except EntityNotFoundException as err:
-            raise HTTPException(status_code=404, detail="id não encontrado")
-        except Exception as err:
-            print(type(err))
-            print(f"ERRO INESPERADO >> {err}")
+
+        entity = self.repository.find(id)
+        response = self.service.to_dtoOutput(entity)
+        return response
 
     def export_csv(self):
-        try:
-            all_cursos = self.repository.find_all()
-            result_output = self.service.output_csv(all_cursos)
 
-            return StreamingResponse(
-                result_output,
-                media_type="text/csv",
-                headers={
-                    "Content-Disposition": "attachment; filename=course.unig_producao.csv"
-                },
-            )
-        except Exception as err:
-            print(err)
+        all_cursos = self.repository.find_all()
+        result_output = self.service.output_csv(all_cursos)
 
-    async def process_file(self, file: UploadFile):
+        return StreamingResponse(
+            result_output,
+            media_type="text/csv",
+            headers={
+                "Content-Disposition": "attachment; filename=course.unig_producao.csv"
+            },
+        )
 
-        return {"msg": "EM DESENVOLVIMENTO"}
+    async def process_file_xlsx(self, file: UploadFile):
+        df = await self.service.xlsx_to_dataframe(file)
+        df = await self.service.df_remover_cursos_duplicados(df)
+
+        df = self.service.prepare_dataframe(df)
+
+        data_dict = df.to_dict(orient="records")
+
+        found, not_found = await self.service.verify_persistence(data_dict, self)
+
+        created, erros_created = await self.service.persist(not_found, self)
+
+        updated, erros_updated = await self.service.persist(found, self, update=True)
+
+        outputResponse = {}
+        outputResponse["created"] = created
+        outputResponse["erros_created"] = erros_created
+        outputResponse["updated"] = updated
+        outputResponse["erros_updated"] = erros_updated
+
+        return outputResponse

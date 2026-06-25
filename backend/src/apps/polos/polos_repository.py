@@ -1,8 +1,13 @@
-from src.err.exceptios import EntityNotFoundException
+# Dependency
 from sqlalchemy import create_engine
 from src.database.base import Base
 from sqlalchemy.orm import sessionmaker
-from src.apps.polos.polos_model import PoloModel
+
+# Packages
+from .polos_model import PoloModel
+
+# Exceptions
+from src.exceptions import EntityNotFoundException
 
 
 class PoloRepository:
@@ -29,21 +34,31 @@ class PoloRepository:
         return result
 
     def find(self, _id: int) -> PoloModel | None:
+
         result = self.session.query(PoloModel).filter_by(id=_id).first()
 
         if result is None:
-            raise EntityNotFoundException()
+            raise EntityNotFoundException("Polo não encontrado!")
+
         return result
 
     def edit(self, _id: int, entity_model: PoloModel) -> PoloModel | None:
         newEntity = self.session.query(PoloModel).filter_by(id=_id).first()
+
+        if newEntity is None:
+            raise EntityNotFoundException("Polo não encontrado!")
+
         newEntity.name = entity_model.name
 
         self.session.commit()
         return newEntity
 
     def remove(self, _id: int) -> PoloModel | None:
+
         resultEntity = self.session.query(PoloModel).filter_by(id=_id).first()
+
+        if resultEntity is None:
+            raise EntityNotFoundException("Polo não encontrado!")
 
         self.session.delete(resultEntity)
         self.session.commit()

@@ -1,7 +1,12 @@
+# Dependency
 from typing import Optional
 from fastapi import APIRouter, Depends, status, Path
+
+# Packages
 from src.apps.mod_ensino.mod_ensino_dto import ModEnsinoInput, ModEnsinoOutput
 from src.apps.mod_ensino.mod_ensino_controller import ModEnsinoController
+
+# //--
 
 router = APIRouter(prefix="/mods-ensino")
 

@@ -1,11 +1,18 @@
+# Dependency
 from typing import Optional
-
-from src.err.exceptios import EntityNotFoundException
-from sqlalchemy.sql import func
 from sqlalchemy import create_engine
-from src.database.base import Base
 from sqlalchemy.orm import sessionmaker
-from src.apps.mod_ensino.mod_ensino_model import ModEnsinoModel
+
+# Packages
+from src.database import Base
+from .mod_ensino_model import ModEnsinoModel
+
+# Exceptions
+from src.exceptions.process_error import (
+    UniqueConstraintViolationException,
+    EntityNotFoundException,
+)
+from sqlalchemy.exc import IntegrityError
 
 
 class ModEnsinoRepository:
@@ -19,9 +26,13 @@ class ModEnsinoRepository:
         self.session = self.Session()
 
     def save(self, entity_model: ModEnsinoModel) -> ModEnsinoModel:
-        self.session.add(entity_model)
-        self.session.commit()
-        return entity_model
+        try:
+            self.session.add(entity_model)
+            self.session.commit()
+            return entity_model
+        except IntegrityError as err:
+            self.session.rollback()
+            raise UniqueConstraintViolationException(err)
 
     def find_all(self, filter_status: Optional[bool] = None) -> list[ModEnsinoModel]:
 
@@ -37,11 +48,13 @@ class ModEnsinoRepository:
     def find(self, _id: int) -> ModEnsinoModel | None:
         result = self.session.query(ModEnsinoModel).filter_by(id=_id).first()
         if result is None:
-            raise EntityNotFoundException()
+            raise EntityNotFoundException("Modalidade de ensino não encontrada!")
         return result
 
     def edit(self, _id: int, entity_model: ModEnsinoModel) -> ModEnsinoModel | None:
         newEntity = self.session.query(ModEnsinoModel).filter_by(id=_id).first()
+        if newEntity is None:
+            raise EntityNotFoundException("Modalidade de ensino não encontrada!")
 
         newEntity.status = entity_model.status
         newEntity.name = entity_model.name
@@ -53,6 +66,10 @@ class ModEnsinoRepository:
 
     def remove(self, _id: int) -> ModEnsinoModel | None:
         resultEntity = self.session.query(ModEnsinoModel).filter_by(id=_id).first()
+
+        if resultEntity is None:
+            raise EntityNotFoundException("Modalidade de ensino não encontrada!")
+
         self.session.delete(resultEntity)
         self.session.commit()
         return resultEntity

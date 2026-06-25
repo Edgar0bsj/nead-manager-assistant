@@ -1,12 +1,14 @@
+# Dependency
 from sqlalchemy import Boolean, ForeignKey, String, Integer
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from src.database.base import Base
-from src.database.timestamp_mixin import TimestampMixin
 
-# Relacionamento _______________
-from src.apps.mod_ensino.mod_ensino_model import ModEnsinoModel
-from src.apps.nivel_ensino.nivel_ensino_model import NivelEnsinoModel
-from src.apps.polos.polos_model import PoloModel
+# Packages
+from src.database import TimestampMixin, Base
+
+# Relationship
+from src.apps.mod_ensino import ModEnsinoModel
+from src.apps.nivel_ensino import NivelEnsinoModel
+from src.apps.polos import PoloModel
 
 
 class CursosModel(TimestampMixin, Base):

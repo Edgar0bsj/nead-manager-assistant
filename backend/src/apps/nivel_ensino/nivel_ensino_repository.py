@@ -1,11 +1,18 @@
+# Dependency
 from typing import Optional
-
-from src.err.exceptios import EntityNotFoundException
 from sqlalchemy import create_engine
-from src.database.base import Base
 from sqlalchemy.orm import sessionmaker
 
-from src.apps.nivel_ensino.nivel_ensino_model import NivelEnsinoModel
+# Packages
+from .nivel_ensino_model import NivelEnsinoModel
+from src.database import Base
+
+# Exceptions
+from src.exceptions.process_error import (
+    UniqueConstraintViolationException,
+    EntityNotFoundException,
+)
+from sqlalchemy.exc import IntegrityError
 
 
 class NivelEnsinoRepository:
@@ -19,9 +26,12 @@ class NivelEnsinoRepository:
         self.session = self.Session()
 
     def save(self, entity_model: NivelEnsinoModel) -> NivelEnsinoModel:
-        self.session.add(entity_model)
-        self.session.commit()
-        return entity_model
+        try:
+            self.session.add(entity_model)
+            self.session.commit()
+            return entity_model
+        except IntegrityError as err:
+            raise UniqueConstraintViolationException(err)
 
     def find_all(self, filter_status: Optional[bool] = None) -> list[NivelEnsinoModel]:
 
@@ -36,12 +46,17 @@ class NivelEnsinoRepository:
 
     def find(self, _id: int) -> NivelEnsinoModel | None:
         result = self.session.query(NivelEnsinoModel).filter_by(id=_id).first()
+
         if result is None:
-            raise EntityNotFoundException()
+            raise EntityNotFoundException("Nivel de ensino não encontrado!")
+
         return result
 
     def edit(self, _id: int, entity_model: NivelEnsinoModel) -> NivelEnsinoModel | None:
         newEntity = self.session.query(NivelEnsinoModel).filter_by(id=_id).first()
+
+        if newEntity is None:
+            raise EntityNotFoundException("Nivel de ensino não encontrado!")
 
         newEntity.status = entity_model.status
         newEntity.name = entity_model.name
@@ -53,6 +68,10 @@ class NivelEnsinoRepository:
 
     def remove(self, _id: int) -> NivelEnsinoModel | None:
         resultEntity = self.session.query(NivelEnsinoModel).filter_by(id=_id).first()
+
+        if resultEntity is None:
+            raise EntityNotFoundException("Nivel de ensino não encontrado!")
+
         self.session.delete(resultEntity)
         self.session.commit()
         return resultEntity

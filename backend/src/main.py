@@ -1,11 +1,19 @@
 # uvicorn src.main:app --reload --port 8080
+
+# Dependency
 from fastapi import FastAPI
-from src.routers.polos import router as polos_router
-from src.routers.mod_ensino import router as mod_ensino_router
-from src.routers.nivel_ensino import router as nivel_ensino_router
-from src.routers.cursos import router as cursos_router
+
+# Routes
+from src.routers import polos_router
+from src.routers import mod_ensino_router
+from src.routers import nivel_ensino_router
+from src.routers import cursos_router
+
+# Exceptions
+from src.exceptions import erros_handler
 
 app = FastAPI()
+erros_handler(app)
 
 app.include_router(polos_router)
 app.include_router(mod_ensino_router)

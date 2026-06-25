@@ -1,7 +1,12 @@
+# Dependency
 from typing import Optional
 from fastapi import APIRouter, Depends, status, Path
-from src.apps.nivel_ensino.nivel_ensino_dto import NivelEnsinoInput, NivelEnsinoOutput
-from src.apps.nivel_ensino.nivel_ensino_controller import NivelEnsinoController
+
+# Packages
+from src.apps.nivel_ensino import NivelEnsinoInput, NivelEnsinoOutput
+from src.apps.nivel_ensino import NivelEnsinoController
+
+# //--
 
 router = APIRouter(prefix="/nivel-ensino")
 

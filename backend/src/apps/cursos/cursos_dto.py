@@ -1,5 +1,6 @@
+# Dependency
 from pydantic import BaseModel
-from typing import Optional, Any
+from typing import Optional
 
 
 class CursosInput(BaseModel):
