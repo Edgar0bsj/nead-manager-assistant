@@ -8,6 +8,8 @@ from .polos_model import PoloModel
 
 # Exceptions
 from src.exceptions import EntityNotFoundException
+from sqlalchemy.exc import IntegrityError
+from src.exceptions import RecordHasDependenciesException
 
 
 class PoloRepository:
@@ -54,12 +56,17 @@ class PoloRepository:
         return newEntity
 
     def remove(self, _id: int) -> PoloModel | None:
+        try:
+            resultEntity = self.session.query(PoloModel).filter_by(id=_id).first()
 
-        resultEntity = self.session.query(PoloModel).filter_by(id=_id).first()
+            if resultEntity is None:
+                raise EntityNotFoundException("Polo não encontrado!")
 
-        if resultEntity is None:
-            raise EntityNotFoundException("Polo não encontrado!")
+            self.session.delete(resultEntity)
+            self.session.commit()
+            return resultEntity
 
-        self.session.delete(resultEntity)
-        self.session.commit()
-        return resultEntity
+        except IntegrityError:
+            raise RecordHasDependenciesException(
+                "Não é possível deletar o polo porque ele possui vinculados."
+            )

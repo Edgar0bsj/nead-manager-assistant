@@ -3,9 +3,9 @@ from fastapi.responses import StreamingResponse
 from fastapi import HTTPException, UploadFile
 
 # Packages
-from . import CursosRepository
-from . import CursosService
-from . import CursosInput, CursosOutput
+from .cursos_repository import CursosRepository
+from .cursos_service import CursosService
+from .cursos_dto import CursosInput, CursosOutput
 
 # Exceptions
 from sqlalchemy.exc import IntegrityError

@@ -3,7 +3,11 @@ from fastapi import Request
 from fastapi.responses import JSONResponse
 
 # Packages
-from ..process_error import EntityNotFoundException, UniqueConstraintViolationException
+from ..process_error import (
+    EntityNotFoundException,
+    UniqueConstraintViolationException,
+    RecordHasDependenciesException,
+)
 
 
 def erros_handler(app):
@@ -27,4 +31,12 @@ def erros_handler(app):
     ):
         return JSONResponse(
             status_code=404, content={"message": f"Ocorreu um erro: {exc.msg}"}
+        )
+
+    @app.exception_handler(RecordHasDependenciesException)
+    async def RecordHasDependenciesException_handler(
+        request: Request, exc: RecordHasDependenciesException
+    ):
+        return JSONResponse(
+            status_code=409, content={"message": f"Ocorreu um erro: {exc.msg}"}
         )

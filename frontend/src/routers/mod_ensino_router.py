@@ -2,7 +2,7 @@ from fastapi import APIRouter, Request, Form, Response
 from fastapi.responses import RedirectResponse
 import httpx
 from typing import Optional
-from src.config import templates
+from src.shared import templating
 
 router = APIRouter(prefix="/mod-ensino")
 
@@ -16,7 +16,7 @@ async def find_all(request: Request, msg: Optional[str] = None):
         response = await client.get(url=url)
         response = response.json()
 
-    return templates.TemplateResponse(
+    return templating().TemplateResponse(
         request=request,
         name="modalidades_ensino/MainPage.html",
         context={"data": response, "msg_errs": msg},

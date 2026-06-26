@@ -7,10 +7,10 @@
     <meta name="description" content="Controle sobre o meneger">
     <title>{% block title %}{% endblock %}</title>
 
-    <link rel="icon" type="image/x-icon" href="../assets/images/favicon/favicon.ico">
-    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/vendors/bootstrap-icons/bootstrap-icons.css">
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('assets', path='/images/favicon/favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('assets', path='/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('assets', path='/vendors/bootstrap-icons/bootstrap-icons.css') }}">
+    <link rel="stylesheet" href="{{ url_for('assets', path='/css/style.css') }}">
 </head>
 
 <body>
@@ -55,8 +55,8 @@
         </div>
     </div>
 
-    <script src="../assets/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/js/main.js"></script>
+    <script src="{{ url_for('assets', path='/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('assets', path='/js/main.js') }}"></script>
 </body>
 
 </html>

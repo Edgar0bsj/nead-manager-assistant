@@ -11,3 +11,8 @@ class UniqueConstraintViolationException(BaseError):
 class EntityNotFoundException(BaseError):
     def __init__(self, msg: str):
         super().__init__(msg)
+
+
+class RecordHasDependenciesException(BaseError):
+    def __init__(self, msg: str):
+        super().__init__(msg)

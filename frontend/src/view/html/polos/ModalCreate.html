@@ -1,11 +1,10 @@
-<div class="modal fade" id="ModalUpdate" tabindex="-1" aria-labelledby="formModalLabel" style="display: none;"
+<div class="modal fade" id="ModalCreate" tabindex="-1" aria-labelledby="formModalLabel" style="display: none;"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form action="{{url_for('polos_update')}}" method="post" class="needs-validation" novalidate="">
-                <input type="hidden" id="id_update" name="id">
+            <form action="#" method="post" class="needs-validation" novalidate="">
                 <div class="modal-header">
-                    <h2 class="modal-title h5">Edição de Polo</h2><button type="button" class="btn-close"
+                    <h2 class="modal-title h5">Modal create</h2><button type="button" class="btn-close"
                         data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -19,7 +18,7 @@
 
                                     <div class="input-group-text" id="btnGroupAddon"><i class="bi bi-bank"></i></div>
 
-                                    <input id="name_update" name="nome" class="form-control" required="">
+                                    <input class="form-control" name="nome" required="">
                                     <div class="invalid-feedback">Faz Favor.</div>
 
                                 </div>
@@ -38,21 +37,3 @@
         </div>
     </div>
 </div>
-
-<script>
-
-    const MODAL_UPDATE = document.getElementById('ModalUpdate');
-
-    MODAL_UPDATE.addEventListener('show.bs.modal', function (event) {
-
-        // Botão que abriu o modal
-        const button = event.relatedTarget;
-
-        // Recupera os atributos
-        let id = button.getAttribute('data-id');
-        let name = button.getAttribute('data-name');
-
-        document.getElementById("id_update").value = id
-        document.getElementById("name_update").value = name
-    });
-</script>
