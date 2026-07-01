@@ -1,0 +1,55 @@
+<div class="modal fade" id="ModalUploadExcel" tabindex="-1" aria-labelledby="formModalLabel" style="display: none;"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Form -->
+            <form id="uploadFormExcel" enctype="multipart/form-data" class="needs-validation" novalidate="">
+                <div class="modal-header">
+                    <h2 class="modal-title h5" id="formModalLabel">Upload Excel</h2><button type="button"
+                        class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <!-- Body -->
+                <div class="modal-body">
+                    <div class="input-group">
+                        <input type="file" class="form-control" name="file" aria-describedby="inputGroupFileAddon04"
+                            aria-label="Upload">
+                        <button class="btn btn-outline-secondary" type="submit">Importar</button>
+                    </div>
+                    <div id="mensagem" class="mt-3"></div>
+
+                </div>
+                <!-- // Body -->
+                <div class="modal-footer"><button type="button" class="btn btn-outline-secondary"
+                        data-bs-dismiss="modal">Voltar</button></div>
+            </form>
+            <!-- // Form -->
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById("uploadFormExcel").addEventListener("submit", async function (e) {
+        e.preventDefault(); // impede o comportamento padrão (abrir JSON cru)
+
+        const formData = new FormData(this);
+
+        try {
+            const resposta = await fetch("http://127.0.0.1:8080/cursos/upload-xlsx", {
+                method: "POST",
+                body: formData
+            });
+
+            if (!resposta.ok) {
+                throw new Error("Erro na requisição: " + resposta.status);
+            }
+
+            const dados = await resposta.json();
+
+            // Exibe o resultado de forma amigável
+            document.getElementById("mensagem").innerHTML =
+                "Upload concluído! Arquivo: " + (dados.filename || "sem nome");
+        } catch (erro) {
+            document.getElementById("mensagem").innerHTML =
+                '<div class="alert alert-warning" role="alert"><strong>Warning:</strong> BIRL, QUE NUM VAI DA OQUE.... deu não: Falha na requisição.</div>';
+        }
+    });
+</script>

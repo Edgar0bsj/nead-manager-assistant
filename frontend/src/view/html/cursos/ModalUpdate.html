@@ -2,72 +2,78 @@
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
+            <!-- FORM -->
             <form action="{{url_for('cursos_update')}}" method="post" class="needs-validation" novalidate="">
-                <input type="hidden" id="id_update" name="id">
+                <input type="hidden" id="update_id" name="id">
                 <div class="modal-header">
                     <h2 class="modal-title h5">Editar Curso</h2><button type="button" class="btn-close"
                         data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <!-- BODY -->
-                    <div class="container text-center">
-                        <div class="row justify-content-md-center align-items-center mb-3">
-                            <div class="col-md"><label class="form-label">name</label><input class="form-control"
-                                    required="" name="name" id="name_update">
-                                <div class="invalid-feedback">Full name is required.</div>
+                    <div class="panel">
+                        <!-- isActive || NAME -->
+                        <div class="row g-2 mb-2 justify-content-md-center text-center">
+                            <div class="col-md-4"><label class="form-label">isActive</label>
+                                <select id="isActive_id" name="isActive" class="form-select" required="">
+                                    <option value="">...</option>
+                                    <option value="True">True</option>
+                                    <option value="False">False</option>
+                                </select>
+                                <div class="invalid-feedback">Faz favor.</div>
+                            </div>
+                            <div class="col-md-8"><label class="form-label">Name</label><input id="name_id" name="name"
+                                    class="form-control" required="">
+                                <div class="invalid-feedback">Faz favor.</div>
+                            </div>
+                        </div>
+                        <!-- externalId || externalTeachingModalityId -->
+                        <div class="row g-2 mb-2 justify-content-md-center text-center">
+                            <div class="col-md-6"><label class="form-label">ExternalId</label>
+                                <input id="externalId_id" name="externalId" class="form-control" required="">
+                                <div class="invalid-feedback">Faz favor.</div>
+                            </div>
+                            <div class="col-md-6"><label class="form-label">externalTeachingModalityId</label>
+                                <input id="etm_id" name="externalTeachingModalityId" class="form-control" required="">
+                                <div class="invalid-feedback">Faz favor.</div>
                             </div>
 
                         </div>
-                        <div class="row justify-content-md-center align-items-center mb-3">
-                            <div class="col-md-6"><label class="form-label">externalId</label><input
-                                    class="form-control" required="" name="externalId" id="externalId_update">
-                                <div class="invalid-feedback">Full name is required.</div>
+                        <!-- externalEducationLevelId || courseTypeId -->
+                        <div class="row g-2 mb-2 justify-content-md-center text-center">
+                            <div class="col-md-6"><label class="form-label">externalEducationLevelId</label>
+                                <input id="exid_id" name="externalEducationLevelId" class="form-control" required="">
+                                <div class="invalid-feedback">Faz favor.</div>
                             </div>
-                            <div class="col-md-6"><label class="form-label">isActive</label><select name="isActive"
-                                    id="isActive_update" class="form-select" required="">
+                            <div class="col-md-6"><label class="form-label">courseTypeId</label>
+                                <select id="courseTypeId_id" name="courseTypeId" class="form-select" required="">
                                     <option value="">...</option>
-                                    <option value="true">Ativo</option>
-                                    <option value="false">Desativado</option>
+                                    <option value="bachelor">Bacharelado</option>
+                                    <option value="licentiate">Licenciatura</option>
+                                    <option value="technologist">Tecnólogo</option>
                                 </select>
-                                <div class="invalid-feedback">Choose a plan.</div>
+                                <div class="invalid-feedback">Faz favor.</div>
                             </div>
                         </div>
-                        <div class="row justify-content-md-center align-items-center mb-3">
-                            <div class="col-md-6"><label class="form-label">externalTeachingModalityId</label><input
-                                    name="externalTeachingModalityId" id="externalTeachingModalityId_update"
-                                    class="form-control" required="">
-                                <div class="invalid-feedback">Full name is required.</div>
-                            </div>
-                            <div class="col-md-6"><label class="form-label">externalEducationLevelId</label><input
-                                    class="form-control" required="" name="externalEducationLevelId"
-                                    id="externalEducationLevelId_update">
-                                <div class="invalid-feedback">Full name is required.</div>
-                            </div>
-                        </div>
-                        <div class="row justify-content-md-center align-items-center mb-3">
-                            <div class="col-md-6"><label class="form-label">courseTypeId</label><select
-                                    class="form-select" required="" name="courseTypeId" id="courseTypeId_update">
-                                    <option value="">...</option>
-                                    <option>bachelor</option>
-                                    <option>licentiate</option>
-                                    <option>technologist</option>
-                                </select>
-                                <div class="invalid-feedback">Choose a plan.</div>
+                        <!-- polo_id -->
+                        <div class="row g-2 mb-2 justify-content-md-center text-center">
+                            <div class="col-md-6"><label class="form-label">polo_id</label>
+                                <input id="poloId_id" type="number" name="polo_id" class="form-control" required="">
+                                <div class="invalid-feedback">Faz favor.</div>
                             </div>
                         </div>
                     </div>
                     <!-- // BODY -->
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Editar</button>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Voltar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
                 </div>
             </form>
+            <!-- // FORM -->
         </div>
     </div>
 </div>
-
-
 <script>
 
     const MODAL_UPDATE = document.getElementById('ModalUpdate');
@@ -78,23 +84,23 @@
         const button = event.relatedTarget;
 
         // Recupera os atributos
-        let id = button.getAttribute('data-id');
-        let name = button.getAttribute('data-name');
-        let externalId = button.getAttribute('data-externalId');
-        let isActive = button.getAttribute('data-isActive');
-        let externalTeachingModalityId = button.getAttribute('data-externalTeachingModalityId');
-        let externalEducationLevelId = button.getAttribute('data-externalEducationLevelId');
-        let courseTypeId = button.getAttribute('data-courseTypeId');
+        const id = button.getAttribute('data-id');
+        const isActive = button.getAttribute('data-isActive');
+        const name = button.getAttribute('data-name');
+        const exId = button.getAttribute('data-exId');
+        const extmId = button.getAttribute('data-extmId');
+        const exelevelId = button.getAttribute('data-exelevelId');
+        const courseTypeId = button.getAttribute('data-courseTypeId');
+        const polo_id = button.getAttribute('data-polo_id');
 
-        let status = isActive == "True" ? "true" : "false"
-
-        document.getElementById("id_update").value = id
-        document.getElementById("name_update").value = name
-        document.getElementById("externalId_update").value = externalId
-        document.getElementById("isActive_update").value = status
-        document.getElementById("externalTeachingModalityId_update").value = externalTeachingModalityId
-        document.getElementById("externalEducationLevelId_update").value = externalEducationLevelId
-        document.getElementById("courseTypeId_update").value = courseTypeId
+        document.getElementById("update_id").value = id
+        document.getElementById("isActive_id").value = isActive
+        document.getElementById("name_id").value = name
+        document.getElementById("externalId_id").value = exId
+        document.getElementById("etm_id").value = extmId
+        document.getElementById("exid_id").value = exelevelId
+        document.getElementById("courseTypeId_id").value = courseTypeId
+        document.getElementById("poloId_id").value = polo_id
 
     });
 </script>

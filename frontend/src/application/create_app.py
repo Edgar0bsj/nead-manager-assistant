@@ -1,12 +1,10 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
-from src.routers import (
-    nivelEnsino_router,
-    modEnsino_router,
-    cursos_router,
-)
 from src.presentation.polo import polo_router
+from src.presentation.modalidade_ensino import modEns_router
+from src.presentation.nivel_ensino import nivelEns_router
+from src.presentation.cursos import curso_router
 
 
 def create_app() -> FastAPI:
@@ -34,8 +32,8 @@ def config_statics_fille(app: FastAPI) -> FastAPI:
 def config_routers(app: FastAPI) -> FastAPI:
 
     app.include_router(polo_router)
-    app.include_router(modEnsino_router)
-    app.include_router(nivelEnsino_router)
-    app.include_router(cursos_router)
+    app.include_router(modEns_router)
+    app.include_router(nivelEns_router)
+    app.include_router(curso_router)
 
     return app

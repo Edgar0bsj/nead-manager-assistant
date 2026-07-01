@@ -1,34 +1,46 @@
-<div class="modal fade" id="ModalDelete" tabindex="-1" aria-labelledby="confirmModalLabel" style="display: none;"
+<div class="modal fade" id="ModalDelete" tabindex="-1" aria-labelledby="formModalLabel" style="display: none;"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
+            <!-- FORM -->
             <form action="{{url_for('cursos_delete')}}" method="post" class="needs-validation" novalidate="">
-                <input type="hidden" id="data_id" name="id">
+                <input type="hidden" id="id_delete" name="id">
                 <div class="modal-header">
-                    <h2 class="modal-title h5" id="confirmModalLabel">Certeza ?</h2><button type="button"
-                        class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h2 class="modal-title h5" id="formModalLabel">Deletar</h2><button type="button" class="btn-close"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">Não pode ser revertida essa ação, então pense bem aí.</div>
+                <div class="modal-body">
+                    <!-- BODY -->
+                    <div class="container">
+                        <div class="row">
+                            <div class="alert alert-danger mb-0" role="alert"><strong>Atenção </strong> Não pode ser
+                                revertida essa ação, então pense bem aí.</div>
+                        </div>
+                    </div>
+                    <!-- // BODY -->
+                </div>
                 <div class="modal-footer"><button type="button" class="btn btn-outline-secondary"
-                        data-bs-dismiss="modal">Voltar</button>
-                    <button type="submit" class="btn btn-primary">Confirmar</button>
-                </div>
+                        data-bs-dismiss="modal">Voltar</button><button type="submit"
+                        class="btn btn-danger">Deletar</button></div>
             </form>
+            <!-- // FORM -->
+
         </div>
     </div>
 </div>
+
 <script>
 
-    const ModalDelete = document.getElementById('ModalDelete');
+    const MODAL_DELETE = document.getElementById('ModalDelete');
 
-    ModalDelete.addEventListener('show.bs.modal', function (event) {
+    MODAL_DELETE.addEventListener('show.bs.modal', function (event) {
 
         // Botão que abriu o modal
         const button = event.relatedTarget;
 
         // Recupera os atributos
-        let element_id = button.getAttribute('data-id');
+        let id = button.getAttribute('data-id');
 
-        document.getElementById("data_id").value = element_id
+        document.getElementById("id_delete").value = id
     });
 </script>

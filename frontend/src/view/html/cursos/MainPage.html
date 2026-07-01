@@ -7,39 +7,50 @@ Cursos
     <div class="container-fluid px-3 px-lg-4 py-4">
         <div class="page-heading">
             <div class="page-heading-copy">
-                <span class="page-icon"><i class="bi bi-journal-text" aria-hidden="true"></i></span>
+                <span class="page-icon"><i class="bi bi-briefcase" aria-hidden="true"></i></span>
                 <div>
-                    <p class="eyebrow mb-1">AVAUNI</p>
+                    <p class="eyebrow mb-1">Unig</p>
                     <h1 class="h3 mb-1">Cursos</h1>
                 </div>
-            </div>
-            <div>
-                <a class="btn btn-outline-secondary btn-sm mx-2" type="button"><i class="bi bi-download"
-                        aria-hidden="true"></i>Export</a>
-                <!-- CREATE -->
-                <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal"
-                    data-bs-target="#ModalCreate">
-                    <i class="bi bi-file-earmark-plus" aria-hidden="true"></i>
-                    Add Curso
-                </button>
-                {% include "cursos/ModalCreate.html" %}
-                <!-- // CREATE -->
-
             </div>
 
         </div>
 
         <section class="panel">
             <div class="panel-header">
-                <div>
-                    <h2 class="h5 mb-1 section-title">
-                        <span>Tabela de Cursos</span>
-                    </h2>
-                </div><input class="form-control form-control-sm table-search" type="search" placeholder="Pesquisar"
-                    data-table-search="cursoTable" aria-label="Search orders">
+
+                <input class="form-control form-control-sm table-search" type="search" placeholder="Search"
+                    data-table-search="ordersTable" aria-label="Search orders">
+                <div class="heading-actions">
+                    <!-- All Data -->
+                    <div class="btn-group dropstart">
+                        <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            All Data
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="http://127.0.0.1:8080/cursos/export-csv"><i
+                                        class="bi bi-download" aria-hidden="true"></i> Export Csv</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><button data-bs-toggle="modal" data-bs-target="#ModalUploadExcel"
+                                    class="dropdown-item"><i class="bi bi-upload"></i> Import
+                                    Excel</button></li>
+                            <li><button class="dropdown-item disabled" href="#"><i class="bi bi-upload"></i> Import
+                                    Csv</button></li>
+
+                        </ul>
+                    </div>
+                    <!-- // All Data -->
+                    <button data-bs-toggle="modal" data-bs-target="#ModalCreate" class="btn btn-primary btn-sm"><i
+                            class="bi bi-plus-circle" aria-hidden="true"></i>Add
+                        Curso</button>
+                </div>
             </div>
             <div class="table-responsive">
-                <table class="table align-middle mb-0" id="cursoTable" data-searchable-table="">
+                <table class="table align-middle mb-0" id="ordersTable" data-searchable-table="">
                     <thead>
                         <tr>
                             <th>name</th>
@@ -48,82 +59,90 @@ Cursos
                             <th>externalTeachingModalityId</th>
                             <th>externalEducationLevelId</th>
                             <th>courseTypeId</th>
-                            <th class="text-end">Actions</th>
+                            <th>polo_id</th>
+                            <th>polo</th>
+                            <th class="text-end"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- FOR -->
-                        {% for element in data %}
+                        {% for e in data %}
                         <tr>
-                            <td class="fw-semibold">{{element['name']}}</td>
                             <td>
-                                <span>{{element['externalId']}}</span>
+                                <span>{{e['name']}}</span>
                             </td>
-                            {% if element['isActive'] %}
-                            <td><span class="badge text-bg-success">{{element['isActive']}}</span></td>
-                            {% endif %}
-                            {% if not element['isActive'] %}
-                            <td><span class="badge text-bg-danger">{{element['isActive']}}</span></td>
-                            {% endif %}
-                            <td>{{element['externalTeachingModalityId']}}</td>
-                            <td>{{element['externalEducationLevelId']}}</td>
-                            <td>{{element['courseTypeId']}}</td>
+                            <td>
+                                <span class="badge text-bg-warning">{{e['externalId']}}</span>
+                            </td>
+                            <td>
+                                <!--  -->
+                                {% if e['isActive'] %}
+                                <span class="badge text-bg-success">{{e['isActive']}}</span>
+                                {% else %}
+                                <span class="badge text-bg-danger">{{e['isActive']}}</span>
+                                {% endif %}
+                                <!--  -->
+                            </td>
+                            <td>
+                                <span>{{e['externalTeachingModalityId']}}</span>
+                            </td>
+                            <td>
+                                <span>{{e['externalEducationLevelId']}}</span>
+                            </td>
+                            <td>
+                                <span>{{e['courseTypeId']}}</span>
+                            </td>
+                            <td>
+                                <!--  -->
+                                {% if e['polo'] %}
+                                <span class="badge text-bg-success">{{e['polo']['name']}}</span>
+                                {% else %}
+                                <span class="badge text-bg-danger">{{e['polo_id']}}</span>
+                                {% endif %}
+                                <!--  -->
+                            </td>
                             <td class="text-end">
-                                <div class="container text-center">
-
-                                    <div class="row justify-content-md-center align-items-center mb-2">
-                                        <div class="col-md-6">
-                                            <!-- UPDATE -->
-                                            <button data-id="{{element['id']}}" data-name="{{element['name']}}"
-                                                data-externalId="{{element['externalId']}}"
-                                                data-isActive="{{element['isActive']}}"
-                                                data-externalTeachingModalityId="{{element['externalTeachingModalityId']}}"
-                                                data-externalEducationLevelId="{{element['externalEducationLevelId']}}"
-                                                data-courseTypeId="{{element['courseTypeId']}}"
-                                                class="btn btn-light btn-sm" type="button" data-bs-toggle="modal"
-                                                data-bs-target="#ModalUpdate">Editar</button>
-                                            <!-- // UPDATE -->
-                                        </div>
-                                    </div>
-                                    <div class="row justify-content-md-center align-items-center mb-2">
-                                        <div class="col-md-6">
-                                            <!-- DELETE -->
-                                            <button class="btn btn-light btn-sm" type="button" data-bs-toggle="modal"
-                                                data-bs-target="#ModalDelete"
-                                                data-id="{{element['id']}}">Deletar</button>
-                                            <!-- // DELETE -->
-                                        </div>
-                                    </div>
-                                    <div class="row justify-content-md-center align-items-center">
-                                        <div class="col-md-6">
-                                            <!-- DETAILS -->
-                                            <button data-mod-status="{{element['modalidade_ensino']['status']}}"
-                                                data-mod-name="{{element['modalidade_ensino']['name']}}"
-                                                data-mod-externalId="{{element['modalidade_ensino']['externalId']}}"
-                                                data-mod-teachingModalityTypeId="{{element['modalidade_ensino']['teachingModalityTypeId']}}"
-                                                data-nl-status="{{element['nivel_ensino']['status']}}"
-                                                data-nl-name="{{element['nivel_ensino']['name']}}"
-                                                data-nl-externalId="{{element['nivel_ensino']['externalId']}}"
-                                                data-nl-educationLevelTypeId="{{element['nivel_ensino']['educationLevelTypeId']}}"
-                                                data-bs-toggle="modal" data-bs-target="#ModalDetails"
-                                                class="btn btn-light btn-sm" type="button">Detalhes</button>
-                                            <!-- // DETAILS -->
-                                        </div>
-                                    </div>
+                                <!-- opções -->
+                                <div class="btn-group dropstart">
+                                    <button class="btn btn-light btn-sm dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        Selection
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <!-- Detalhes EM DESENVOLVIMENTO -->
+                                        <li><a class="dropdown-item disabled" href="#">Sobre</a></li>
+                                        <!-- // Detalhes -->
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <!-- Crud -->
+                                        <li><button data-id="{{e['id']}}" data-isActive="{{e['isActive']}}"
+                                                data-name="{{e['name']}}" data-exId="{{e['externalId']}}"
+                                                data-extmId="{{e['externalTeachingModalityId']}}"
+                                                data-exelevelId="{{e['externalEducationLevelId']}}"
+                                                data-courseTypeId="{{e['courseTypeId']}}"
+                                                data-polo_id="{{e['polo_id']}}" data-bs-toggle="modal"
+                                                data-bs-target="#ModalUpdate" class="dropdown-item"
+                                                href="#">Editar</button></li>
+                                        <li><button data-id="{{e['id']}}" data-bs-toggle="modal"
+                                                data-bs-target="#ModalDelete" class="dropdown-item"
+                                                href="#">Remover</button></li>
+                                        <!-- // Crud -->
+                                    </ul>
                                 </div>
+                                <!-- // opções -->
                             </td>
                         </tr>
                         {% endfor %}
-                        <!-- MODAL -->
-                        {% include "cursos/ModalUpdate.html" %}
-                        {% include "cursos/ModalDetails.html" %}
-                        {% include "cursos/ModalDelete.html" %}
-
-                        <!-- //// -->
                     </tbody>
                 </table>
             </div>
         </section>
     </div>
 </main>
+<!-- MODAL -->
+{% include "cursos/ModalCreate.html" %}
+{% include "cursos/ModalUpdate.html" %}
+{% include "cursos/ModalDelete.html" %}
+{% include "cursos/ModalUploadExcel.html" %}
+
 {% endblock %}

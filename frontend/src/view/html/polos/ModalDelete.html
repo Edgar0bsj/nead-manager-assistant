@@ -2,7 +2,8 @@
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form action="#" method="post" class="needs-validation" novalidate="">
+            <!-- FORM -->
+            <form action="{{url_for('polos_delete')}}" method="post" class="needs-validation" novalidate="">
                 <input type="hidden" id="id_delete" name="id">
                 <div class="modal-header">
                     <h2 class="modal-title h5" id="formModalLabel">Deletar</h2><button type="button" class="btn-close"
@@ -22,6 +23,8 @@
                         data-bs-dismiss="modal">Voltar</button><button type="submit"
                         class="btn btn-danger">Deletar</button></div>
             </form>
+            <!-- // FORM -->
+
         </div>
     </div>
 </div>

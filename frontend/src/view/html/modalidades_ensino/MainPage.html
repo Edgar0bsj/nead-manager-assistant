@@ -8,107 +8,88 @@ Modalidade de ensino
     <div class="container-fluid px-3 px-lg-4 py-4">
         <div class="page-heading">
             <div class="page-heading-copy">
-                <span class="page-icon"><i class="bi bi-folder-fill" aria-hidden="true"></i></span>
+                <span class="page-icon"><i class="bi bi-card-heading" aria-hidden="true"></i></span>
                 <div>
-                    <p class="eyebrow mb-1">AVAUNI</p>
-                    <h1 class="h3 mb-1">Modalidades de Ensino</h1>
-                </div>
-                <div class="dropdown">
-                    <button class="icon-button" type="button" data-bs-toggle="dropdown" aria-expanded="false"
-                        aria-label="Notifications">
-                        {% if msg_errs != None %}
-                        <span class="notification-dot"></span>
-                        {% endif %}
-                        <i class="bi bi-bell" aria-hidden="true"></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-end notification-menu">
-                        <div class="dropdown-header fw-bold text-body">Logs</div>
-                        <button class="dropdown-item">
-                            <div class="container">
-                                <div class="col">
-
-                                    <span class="notification-title">{{ msg_errs if msg_errs!=None else "Sem Mensagem"
-                                        }}</span>
-                                </div>
-                            </div>
-                            <!-- <span class="notification-time">{{ msg_errs if msg_errs!=None else "Sem Mensagem" }}</span> -->
-                        </button>
-                    </div>
+                    <p class="eyebrow mb-1">Unig</p>
+                    <h1 class="h3 mb-1">Modalidade de Ensino</h1>
                 </div>
             </div>
 
-            <div class="heading-actions">
-                <!-- Download CSV -->
-                <a href="http://127.0.0.1:8080/mods-ensino/export-csv?filter_status=true"
-                    class="btn btn-outline-secondary btn-sm" type="button"><i class="bi bi-download"
-                        aria-hidden="true"></i>Export</a>
-                <!-- // Download CSV -->
-
-                <!-- MODAL CREATE -->
-                <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal"
-                    data-bs-target="#ModalCreate">
-                    <i class="bi bi-file-earmark-plus" aria-hidden="true"></i>
-                    Add Modalidade de Ensino
-                </button>
-                {% include "modalidades_ensino/ModalCreate.html" %}
-                <!-- //MODAL CREATE -->
-            </div>
         </div>
 
-        <section class="panel blank-panel">
-            <div class="container">
-                <div class="row">
-                    {% for element in data %}
-                    <div class="col-md-4 mb-3">
-                        <div class="panel h-100 text-center profile-card">
-                            <h2 class="h5 mt-3 mb-4">{{ element['name'] }}</h2>
-                            <div class="d-flex justify-content-center gap-2">
-                                {% if element['status'] %}
-                                <span class="badge text-bg-primary">Ativo</span>
-                                {% endif %}
-                                {% if not element['status'] %}
-                                <span class="badge text-bg-danger">Desativado</span>
-                                {% endif %}
-                            </div>
-                            <div class="info-list mt-4 text-start">
-                                <div><span>Código Externo</span><strong>{{ element['externalId'] }}</strong></div>
-                                <div><span>Tipo da Modalidade</span><strong>{{ element['teachingModalityTypeId']
-                                        }}</strong></div>
-                            </div>
-                            <div class="d-flex justify-content-center gap-2 mt-4">
-                                <div>
-                                    <!-- MODAL DETALHES -->
-                                    <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                                        data-bs-target="#ModalDetails">Detalhes</button>
-                                    {% include "modalidades_ensino/ModalDetails.html" %}
-                                    <!-- // MODAL DETALHES -->
-                                </div>
-                                <div>
-                                    <!-- MODAL UPDATE -->
-                                    <button class="btn btn-warning" type="button" data-bs-toggle="modal"
-                                        data-bs-target="#ModalUpdate" element-id="{{element['id']}}"
-                                        element-status="{{element['status']}}" element-name="{{element['name']}}"
-                                        element-externalId="{{element['externalId']}}"
-                                        element-teachingModalityTypeId="{{element['teachingModalityTypeId']}}">Editar</button>
-                                    {% include "modalidades_ensino/ModalUpdate.html" %}
-                                    <!-- // MODAL UPDATE -->
-                                </div>
-                                <div>
-                                    <!-- MODAL DE DELETAR -->
-                                    <button class="btn btn-danger" type="button" data-bs-toggle="modal"
-                                        data-bs-target="#ModalDelete" element-id="{{element['id']}}">Deletar</button>
-                                    {% include "modalidades_ensino/ModalDelete.html" %}
-                                    <!-- // MODAL DE DELETAR -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
+        <section class="panel">
+            <div class="panel-header">
+                <input class="form-control form-control-sm table-search" type="search" placeholder="Search"
+                    data-table-search="modEnsino_table" aria-label="Search orders">
+                <div class="heading-actions">
+                    <a href="http://127.0.0.1:8080/mods-ensino/export-csv?filter_status=true"
+                        class="btn btn-light btn-sm">
+                        <i class="bi bi-download" aria-hidden="true"></i>
+                        Export CSV
+                    </a>
+                    <button data-bs-toggle="modal" data-bs-target="#ModalCreate" class="btn btn-primary btn-sm"><i
+                            class="bi bi-plus-circle" aria-hidden="true"></i>Add
+                        Polo</button>
                 </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table align-middle mb-0" id="modEnsino_table" data-searchable-table="">
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Name</th>
+                            <th>ExternalId</th>
+                            <th>TeachingModalityTypeId</th>
+                            <th>Cursos</th>
+                            <th class="text-end">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for e in data %}
+                        <tr>
+                            <td>
+                                {% if e['status'] %}
+                                <span class="badge text-bg-success">{{e['status']}}</span>
+                                {% else %}
+                                <span class="badge text-bg-danger">{{e['status']}}</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span>{{e['name']}}</span>
+                            </td>
+                            <td>
+                                <span class="badge text-bg-warning">{{e['externalId']}}</span>
+                            </td>
+                            <td>
+                                <span>{{e['teachingModalityTypeId']}}</span>
+                            </td>
+
+                            <td>
+                                <span>{{e['size_courses']}}</span>
+                            </td>
+                            <td class="text-end">
+                                <div class="btn-group">
+                                    <!-- <button type="button" class="btn btn-outline-secondary">Cursos</button> -->
+                                    <button data-id="{{e['id']}}" data-status="{{e['status']}}"
+                                        data-name="{{e['name']}}" data-exId="{{e['externalId']}}"
+                                        data-tmtId="{{e['teachingModalityTypeId']}}" data-bs-toggle="modal"
+                                        data-bs-target="#ModalUpdate" type="button"
+                                        class="btn btn-light btn-sm">Editar</button>
+                                    <button data-id="{{e['id']}}" data-bs-toggle="modal" data-bs-target="#ModalDelete"
+                                        type="button" class="btn btn-light btn-sm">Excluir</button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </section>
     </div>
 </main>
-
-
+<!-- MODAL -->
+{% include "modalidades_ensino/ModalCreate.html" %}
+{% include "modalidades_ensino/ModalUpdate.html" %}
+{% include "modalidades_ensino/ModalDelete.html" %}
+<!-- // MODAL -->
 {% endblock %}

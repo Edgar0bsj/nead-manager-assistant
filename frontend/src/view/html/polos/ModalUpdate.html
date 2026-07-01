@@ -2,7 +2,7 @@
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form action="#" method="post" class="needs-validation" novalidate="">
+            <form action="{{url_for('polos_update')}}" method="post" class="needs-validation" novalidate="">
                 <input type="hidden" id="id_update" name="id">
                 <div class="modal-header">
                     <h2 class="modal-title h5">Edição de Polo</h2><button type="button" class="btn-close"
@@ -19,7 +19,7 @@
 
                                     <div class="input-group-text" id="btnGroupAddon"><i class="bi bi-bank"></i></div>
 
-                                    <input id="name_update" name="nome" class="form-control" required="">
+                                    <input id="name_update" name="name" class="form-control" required="">
                                     <div class="invalid-feedback">Faz Favor.</div>
 
                                 </div>

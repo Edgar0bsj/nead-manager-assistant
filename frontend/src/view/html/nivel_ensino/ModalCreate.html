@@ -2,44 +2,43 @@
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form action="{{url_for('nivel_ensino_create')}}" method="post" class="needs-validation" novalidate="">
+            <!-- FORM -->
+            <form action="{{url_for('nivelEns_create')}}" method="post" class="needs-validation" novalidate="">
                 <div class="modal-header">
-                    <h2 class="modal-title h5">Add Nivel de Ensino</h2><button type="button" class="btn-close"
+                    <h2 class="modal-title h5">Adicionar Nivel de Ensino</h2><button type="button" class="btn-close"
                         data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <!-- BODY -->
-                    <div class="container text-center">
-                        <div class="row justify-content-md-center mb-3">
-                            <div class="col-md-6"><label class="form-label">Status</label><select class="form-select"
-                                    name="status" required="">
+                    <div class="panel">
+                        <!-- Status || NAME -->
+                        <div class="row g-2 mb-2 justify-content-md-center text-center">
+                            <div class="col-md-4"><label class="form-label">Status</label><select name="status"
+                                    class="form-select" required="">
                                     <option value="">...</option>
-                                    <option value="true">Ativado</option>
-                                    <option value="false">Desativado</option>
+                                    <option value="True">True</option>
+                                    <option value="False">False</option>
                                 </select>
                                 <div class="invalid-feedback">Faz favor.</div>
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label">name</label>
-                                <input class="form-control" required="" name="name">
+                            <div class="col-md-8"><label class="form-label">Name</label><input name="name"
+                                    class="form-control" required="">
                                 <div class="invalid-feedback">Faz favor.</div>
                             </div>
                         </div>
-                        <div class="row justify-content-md-center mb-3">
-                            <div class="col-md-6">
-                                <label class="form-label">externalId</label>
-                                <input class="form-control" required="" name="externalId">
+                        <!-- externalId || educationLevelTypeId -->
+                        <div class="row g-2 mb-2 justify-content-md-center text-center">
+                            <div class="col-md-6"><label class="form-label">ExternalId</label><input name="externalId"
+                                    class="form-control" required="">
                                 <div class="invalid-feedback">Faz favor.</div>
                             </div>
-                        </div>
-                        <div class="row justify-content-md-center mb-3">
-                            <div class="col-md-6"><label class="form-label">educationLevelTypeId</label><select
-                                    class="form-select" name="educationLevelTypeId" required="">
+                            <div class="col-md-6"><label class="form-label">EducationLevelTypeId</label><select
+                                    name="educationLevelTypeId" class="form-select" required="">
                                     <option value="">...</option>
-                                    <option value="graduate">graduate</option>
-                                    <option value="undergraduate">undergraduate</option>
-                                    <option value="high_school">high_school</option>
-                                    <option value="extension_course">extension_course</option>
+                                    <option value="graduate">Pós-graduação</option>
+                                    <option value="undergraduate">Graduação</option>
+                                    <option value="high_school">Ensino médio</option>
+                                    <option value="extension_course">Curso de extensão</option>
                                 </select>
                                 <div class="invalid-feedback">Faz favor.</div>
                             </div>
@@ -47,10 +46,12 @@
                     </div>
                     <!-- // BODY -->
                 </div>
-                <div class="modal-footer"><button type="button" class="btn btn-outline-secondary"
-                        data-bs-dismiss="modal">Voltar</button><button type="submit" class="btn btn-primary">Add Nivel
-                        de Ensino</button></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Voltar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
             </form>
+            <!-- // FORM -->
         </div>
     </div>
 </div>

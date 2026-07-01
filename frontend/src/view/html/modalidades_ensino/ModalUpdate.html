@@ -1,64 +1,73 @@
-<div class="modal fade" id="ModalUpdate" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+<div class="modal fade" id="ModalUpdate" tabindex="-1" aria-labelledby="formModalLabel" style="display: none;"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <!-- form -->
-            <form action="{{url_for('mod_ensino_update')}}" method="post" class="needs-validation" novalidate="">
-                <input type="hidden" id="id_update" name="id">
+            <!-- FORM -->
+            <form action="{{url_for('modEnsino_update')}}" method="post" class="needs-validation" novalidate="">
+                <input type="hidden" id="update_id" name="id">
+                <!-- HEADER -->
                 <div class="modal-header">
-                    <h2 class="modal-title h5" id="formModalLabel">Editar Modalidade</h2><button type="button"
-                        class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h2 class="modal-title h5" id="formModalLabel">Adicionar uma Nova Modalidade</h2><button
+                        type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-
+                <!-- // HEADER -->
+                <!-- BODY -->
                 <div class="modal-body">
                     <div class="container text-center">
-                        <div class="row mb-3 justify-content-md-center">
-                            <div class="col-md-4"><label class="form-label" for="formPlan">Status</label>
-                                <select class="form-select" required="" name="status" id="status_update">
+                        <!-- STATUS CAMP -->
+                        <div class="row justify-content-center mb-3">
+                            <div class="col-md-4"><label class="form-label">Status</label><select id="status_id"
+                                    name="status" class="form-select" required="">
                                     <option value="">...</option>
-                                    <option value="true">Ativo</option>
-                                    <option value="false">Desativado</option>
+                                    <option value="True">True</option>
+                                    <option value="False">False</option>
                                 </select>
-                                <div class="invalid-feedback">Faz Favor.</div>
-                            </div>
-                            <div class="col-md-8">
-                                <label class="form-label" for="formName">Nome</label>
-                                <input class="form-control" required="" name="name" id="name_update">
-                                <div class="invalid-feedback">Faz Favor.</div>
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6"><label class="form-label" for="formPlan">
-                                    Tipo da modalidade</label>
-                                <select class="form-select" required="" name="type_modali" id="typeModali_update">
-                                    <option value="">...</option>
-                                    <option value="face_to_face">face_to_face</option>
-                                    <option value="blended_learning">blended_learning</option>
-                                    <option value="distance_learning">distance_learning</option>
-                                </select>
-                                <div class="invalid-feedback">Faz Favor.</div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label" for="formName">externalId</label>
-                                <input class="form-control" required="" name="externalId" id="externalId_update">
-                                <div class="invalid-feedback">Faz Favor.</div>
+                                <div class="invalid-feedback">Faz favor.</div>
                             </div>
                         </div>
+                        <!-- // STATUS CAMP -->
+                        <!-- NAME CAMP -->
+                        <div class="row justify-content-center mb-3">
+                            <div class="col-md-8"><label class="form-label">Name</label><input id="name_id" name="name"
+                                    class="form-control" required="">
+                                <div class="invalid-feedback">Faz favor.</div>
+                            </div>
+                        </div>
+                        <!-- // NAME CAMP -->
+                        <!-- ExternalId CAMP -->
+                        <div class="row justify-content-center mb-3">
+                            <div class="col-md-8"><label class="form-label">ExternalId</label><input id="ex_id"
+                                    name="externalId" class="form-control" required="">
+                                <div class="invalid-feedback">Faz favor.</div>
+                            </div>
+                        </div>
+                        <!-- // ExternalId CAMP -->
+                        <!-- TeachingModalityTypeId CAMP -->
+                        <div class="row justify-content-center mb-3">
+                            <div class="col-md-8"><label class="form-label">TeachingModalityTypeId</label><select
+                                    id="tmt_id" name="teachingModalityTypeId" class="form-select" required="">
+                                    <option value="">...</option>
+                                    <option value="face_to_face">Presencial</option>
+                                    <option value="blended_learning">Híbrido</option>
+                                    <option value="distance_learning">Ensino à distância</option>
+                                </select>
+                                <div class="invalid-feedback">Faz favor.</div>
+                            </div>
+                        </div>
+                        <!-- // TeachingModalityTypeId CAMP -->
                     </div>
                 </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                        Voltar
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        Salvar
-                    </button>
+                <!-- // BODY -->
+                <div class="modal-footer"><button type="button" class="btn btn-outline-secondary"
+                        data-bs-dismiss="modal">Voltar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
                 </div>
             </form>
+            <!-- // FORM -->
         </div>
     </div>
 </div>
+
 <script>
 
     const MODAL_UPDATE = document.getElementById('ModalUpdate');
@@ -69,20 +78,16 @@
         const button = event.relatedTarget;
 
         // Recupera os atributos
-        let element_id = button.getAttribute('element-id');
-        let element_status = button.getAttribute('element-status');
-        let element_name = button.getAttribute('element-name');
-        let element_externalId = button.getAttribute('element-externalId');
-        let element_teachingModalityTypeId = button.getAttribute('element-teachingModalityTypeId');
+        const id = button.getAttribute('data-id');
+        const status = button.getAttribute('data-status');
+        const name = button.getAttribute('data-name');
+        const externalId = button.getAttribute('data-exId');
+        const teachingModalityTypeId = button.getAttribute('data-tmtId');
 
-        let status = element_status == "True" ? "true" : "false"
-
-        document.getElementById("id_update").value = element_id
-        document.getElementById("status_update").value = status
-        document.getElementById("name_update").value = element_name
-        document.getElementById("typeModali_update").value = element_teachingModalityTypeId
-        document.getElementById("externalId_update").value = element_externalId
-
-
+        document.getElementById("update_id").value = id
+        document.getElementById("status_id").value = status
+        document.getElementById("name_id").value = name
+        document.getElementById("ex_id").value = externalId
+        document.getElementById("tmt_id").value = teachingModalityTypeId
     });
 </script>

@@ -2,59 +2,67 @@
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form action="{{url_for('mod_ensino_add')}}" method="post" class="needs-validation" novalidate="">
+            <!-- FORM -->
+            <form action="{{url_for('modEnsino_create')}}" method="post" class="needs-validation" novalidate="">
+                <!-- HEADER -->
                 <div class="modal-header">
-                    <h2 class="modal-title h5">Nova Modalidade de Ensino</h2><button type="button" class="btn-close"
-                        data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h2 class="modal-title h5" id="formModalLabel">Adicionar uma Nova Modalidade</h2><button
+                        type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <!-- // HEADER -->
+                <!-- BODY -->
                 <div class="modal-body">
                     <div class="container text-center">
-                        <div class="row mb-3 justify-content-md-center">
-                            <div class="col-md-4"><label class="form-label" for="formPlan">Status</label>
-                                <select class="form-select" required="" name="status">
+                        <!-- STATUS CAMP -->
+                        <div class="row justify-content-center mb-3">
+                            <div class="col-md-4"><label class="form-label">Status</label><select name="status"
+                                    class="form-select" required="">
                                     <option value="">...</option>
-                                    <option value="true">Ativo</option>
-                                    <option value="false">Desativado</option>
+                                    <option value="True">True</option>
+                                    <option value="False">False</option>
                                 </select>
-                                <div class="invalid-feedback">Faz Favor.</div>
-                            </div>
-                            <div class="col-md-8">
-                                <label class="form-label" for="formName">Nome</label>
-                                <input class="form-control" required="" name="name">
-                                <div class="invalid-feedback">Faz Favor.</div>
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6"><label class="form-label" for="formPlan">Tipo da
-                                    modalidade</label>
-                                <select class="form-select" required="" name="type_modali">
-                                    <option value="">...</option>
-                                    <option value="face_to_face">face_to_face</option>
-                                    <option value="blended_learning">blended_learning</option>
-                                    <option value="distance_learning">distance_learning</option>
-                                </select>
-                                <div class="invalid-feedback">Faz Favor.</div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label" for="formName">externalId</label>
-                                <input class="form-control" required="" name="externalId">
-                                <div class="invalid-feedback">Faz Favor.</div>
+                                <div class="invalid-feedback">Faz favor.</div>
                             </div>
                         </div>
+                        <!-- // STATUS CAMP -->
+                        <!-- NAME CAMP -->
+                        <div class="row justify-content-center mb-3">
+                            <div class="col-md-8"><label class="form-label">Name</label><input name="name"
+                                    class="form-control" required="">
+                                <div class="invalid-feedback">Faz favor.</div>
+                            </div>
+                        </div>
+                        <!-- // NAME CAMP -->
+                        <!-- ExternalId CAMP -->
+                        <div class="row justify-content-center mb-3">
+                            <div class="col-md-8"><label class="form-label">ExternalId</label><input name="externalId"
+                                    class="form-control" required="">
+                                <div class="invalid-feedback">Faz favor.</div>
+                            </div>
+                        </div>
+                        <!-- // ExternalId CAMP -->
+                        <!-- TeachingModalityTypeId CAMP -->
+                        <div class="row justify-content-center mb-3">
+                            <div class="col-md-8"><label class="form-label">TeachingModalityTypeId</label><select
+                                    name="teachingModalityTypeId" class="form-select" required="">
+                                    <option value="">...</option>
+                                    <option value="face_to_face">Presencial</option>
+                                    <option value="blended_learning">Híbrido</option>
+                                    <option value="distance_learning">Ensino à distância</option>
+                                </select>
+                                <div class="invalid-feedback">Faz favor.</div>
+                            </div>
+                        </div>
+                        <!-- // TeachingModalityTypeId CAMP -->
                     </div>
-
                 </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                        Cancelar
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        Adicionar
-                    </button>
+                <!-- // BODY -->
+                <div class="modal-footer"><button type="button" class="btn btn-outline-secondary"
+                        data-bs-dismiss="modal">Voltar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
                 </div>
             </form>
+            <!-- // FORM -->
         </div>
     </div>
 </div>
