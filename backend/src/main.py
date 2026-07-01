@@ -2,6 +2,7 @@
 
 # Dependency
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 # Routes
 from src.routers import polos_router
@@ -13,6 +14,15 @@ from src.routers import cursos_router
 from src.exceptions import erros_handler
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://127.0.0.1:8000"],  # origem do seu frontend
+    allow_credentials=True,
+    allow_methods=["*"],  # permite todos os métodos (GET, POST, etc.)
+    allow_headers=["*"],  # permite todos os headers
+)
+
 erros_handler(app)
 
 app.include_router(polos_router)

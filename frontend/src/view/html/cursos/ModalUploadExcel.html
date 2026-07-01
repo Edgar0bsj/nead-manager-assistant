@@ -11,8 +11,8 @@
                 <!-- Body -->
                 <div class="modal-body">
                     <div class="input-group">
-                        <input type="file" class="form-control" name="file" aria-describedby="inputGroupFileAddon04"
-                            aria-label="Upload">
+                        <input type="file" class="form-control" id="arquivo_csv" name="file"
+                            aria-describedby="inputGroupFileAddon04" aria-label="Upload">
                         <button class="btn btn-outline-secondary" type="submit">Importar</button>
                     </div>
                     <div id="mensagem" class="mt-3"></div>
@@ -27,29 +27,62 @@
     </div>
 </div>
 <script>
-    document.getElementById("uploadFormExcel").addEventListener("submit", async function (e) {
-        e.preventDefault(); // impede o comportamento padrão (abrir JSON cru)
 
-        const formData = new FormData(this);
+    async function createFormData(nomeFile, arquivo) {
+        const data = new FormData()
+        data.append(nomeFile, arquivo)
+        return data
+    }
 
-        try {
-            const resposta = await fetch("http://127.0.0.1:8080/cursos/upload-xlsx", {
-                method: "POST",
-                body: formData
-            });
+    async function fetchUpload(api, formData) {
+        result = await fetch(api, {
+            method: "POST",
+            body: formData
+        });
 
-            if (!resposta.ok) {
-                throw new Error("Erro na requisição: " + resposta.status);
-            }
+        return result
+    }
+    async function setterMensagem(payload, tagId) {
 
-            const dados = await resposta.json();
+        elemento = document.getElementById(tagId)
 
-            // Exibe o resultado de forma amigável
-            document.getElementById("mensagem").innerHTML =
-                "Upload concluído! Arquivo: " + (dados.filename || "sem nome");
-        } catch (erro) {
-            document.getElementById("mensagem").innerHTML =
-                '<div class="alert alert-warning" role="alert"><strong>Warning:</strong> BIRL, QUE NUM VAI DA OQUE.... deu não: Falha na requisição.</div>';
+        isSucesso = !payload.ok ? false : true
+
+        switch (isSucesso) {
+            case true:
+                elemento.innerHTML = '<div class="alert alert-success" role="alert"><strong>Sucesso!:</strong> (>‿◠)✌</div>'
+                setTimeout(() => {
+                    location.reload();
+                }, 1500);
+                break;
+            case false:
+                elemento.innerHTML = '<div class="alert alert-danger" role="alert"><strong>Deu ruim</strong> (ㆆ_ㆆ)</div>'
+                break;
+            default:
+                elemento.innerHTML = '<div class="alert alert-warning" role="alert"><strong>Warning:</strong> deu ruim em algo aqui em kkkkk.</div>'
+                console.log("Deu ruim!");
         }
+
+    }
+
+
+
+
+    document.getElementById("uploadFormExcel").addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const CONFIG = {
+            "input_id": "arquivo_csv",
+            "request_name": "file",
+            "api": "http://127.0.0.1:8080/cursos/upload-xlsx",
+            "divMsgId": "mensagem"
+        }
+
+        const arquivo = document.getElementById(CONFIG['input_id']).files[0];
+        const formData = await createFormData(CONFIG['request_name'], arquivo)
+        const payload = await fetchUpload(CONFIG['api'], formData)
+        const result = await setterMensagem(payload, CONFIG["divMsgId"])
+
     });
+
+
 </script>
